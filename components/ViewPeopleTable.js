@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { people } from "@/dummy-data";
 
 const ViewPeopleTable = () => {
@@ -28,6 +29,7 @@ const ViewPeopleTable = () => {
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                 School
               </th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm"></th>
             </tr>
           </thead>
           <tbody className="text-gray-700">
@@ -41,6 +43,14 @@ const ViewPeopleTable = () => {
                   <td className="text-left py-3 px-4">{person.dateOfBirth}</td>
                   <td className="text-left py-3 px-4">{person.yearGroup}</td>
                   <td className="text-left py-3 px-4">{person.schoolID}</td>
+                  <td className="text-center py-3 px-4">
+                    <Link
+                      href={`/searchPeople/[${person.userID}]`}
+                      className="font-semibold text-cyan"
+                    >
+                      Edit
+                    </Link>
+                  </td>
                 </tr>
               );
             })}
