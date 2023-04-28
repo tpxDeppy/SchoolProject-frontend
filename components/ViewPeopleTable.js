@@ -33,7 +33,7 @@ const ViewPeopleTable = () => {
           <tbody className="text-gray-700">
             {people.map((person) => {
               return (
-                <tr>
+                <tr key={person.userID}>
                   <td className="text-left py-3 px-4">{person.userID}</td>
                   <td className="text-left py-3 px-4">{person.firstName}</td>
                   <td className="text-left py-3 px-4">{person.lastName}</td>
