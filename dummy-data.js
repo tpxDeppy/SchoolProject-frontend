@@ -1,0 +1,38 @@
+export const people = [
+  {
+    userID: 1,
+    firstName: "John",
+    lastName: "Doe",
+    userType: "Pupil",
+    dateOfBirth: "2005-01-01",
+    yearGroup: 13,
+    schoolID: 1234,
+  },
+  {
+    userID: 2,
+    firstName: "Jane",
+    lastName: "Lois",
+    userType: "Teacher",
+    dateOfBirth: null,
+    yearGroup: null,
+    schoolID: 1234,
+  },
+  {
+    userID: 3,
+    firstName: "Bob",
+    lastName: "Smith",
+    userType: "Pupil",
+    dateOfBirth: "2008-05-21",
+    yearGroup: 10,
+    schoolID: 5678,
+  },
+  {
+    userID: 4,
+    firstName: "Alice",
+    lastName: "Johnson",
+    userType: "Teacher",
+    dateOfBirth: null,
+    yearGroup: null,
+    schoolID: 5678,
+  },
+];

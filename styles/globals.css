@@ -2,41 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
-
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@400;600&display=swap");
 
 * {
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
   font-family: "Open Sans", "Montserrat", sans-serif;
   color: #363636;
   background-color: #c5fafb;
+  height: 100%;
+  position: relative;
 }
 
 h1,
@@ -52,4 +31,9 @@ h6 {
 .center {
   margin: auto;
   text-align: center;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
 }

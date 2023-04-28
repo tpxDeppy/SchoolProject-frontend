@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { Dialog, Popover } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white drop-shadow-md">
+    <header className="bg-white drop-shadow-md mb-20">
       <nav
         className="mx-auto flex max-w-8xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">School System </span>
             <h1 className="h-6 w-auto text-2xl/6 ">School System</h1>
-          </a>
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -28,18 +29,18 @@ const NavBar = () => {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <a
-            href="/"
+          <Link
+            href="/searchPeople"
             className="text-base/6 font-semibold leading-6 text-gray-700"
           >
-            Add People Page
-          </a>
-          <a
-            href="/peopleSearch"
+            Search People
+          </Link>
+          <Link
+            href="/addNewPerson"
             className="text-base/6 font-semibold leading-6 text-gray-700"
           >
-            People Search Page
-          </a>
+            Add People
+          </Link>
         </Popover.Group>
       </nav>
       <Dialog
@@ -51,10 +52,10 @@ const NavBar = () => {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="/" className="-m-1.5  p-1.5">
+            <Link href="/" className="-m-1.5  p-1.5">
               <span className="sr-only">School System</span>
               <h1 className="h-6 w-auto ">School System</h1>
-            </a>
+            </Link>
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -67,18 +68,18 @@ const NavBar = () => {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                <a
-                  href="/"
+                <Link
+                  href="/searchPeople"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Add People Page
-                </a>
-                <a
-                  href="/peopleSearch"
+                  Search People
+                </Link>
+                <Link
+                  href="/addNewPerson"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  People Search Page
-                </a>
+                  Add People
+                </Link>
               </div>
             </div>
           </div>
