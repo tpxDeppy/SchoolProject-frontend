@@ -1,4 +1,6 @@
-const AddPeopleForm = () => {
+import DeleteModal from "./DeleteModal";
+
+const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
   const schools = ["School 1", "School 2", "School 3"];
   const yearGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
@@ -7,10 +9,10 @@ const AddPeopleForm = () => {
       {/* title */}
       <div className="bg-white p-10 border-b border-gray-900/10 pb-12 shadow-lg">
         <h2 className="text-base font-semibold leading-7 text-gray-900">
-          Add a new person
+          {title}
         </h2>
         <p className="mt-1 text-sm leading-6 text-gray-600">
-          Add details of the user
+          {subTitle}details of the user
         </p>
 
         {/* fields */}
@@ -148,8 +150,9 @@ const AddPeopleForm = () => {
             type="submit"
             className="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           >
-            Add
+            {buttonTitle}
           </button>
+          {buttonTitle === "Update" && <DeleteModal />}
         </div>
       </div>
     </form>

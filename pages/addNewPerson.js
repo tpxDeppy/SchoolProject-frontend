@@ -4,7 +4,11 @@ import AddPeopleForm from "@/components/AddPeopleForm";
 const AddNewPersonPage = () => {
   return (
     <Fragment>
-      <AddPeopleForm />
+      <AddPeopleForm
+        title="Add a new person"
+        subTitle="Add "
+        buttonTitle="Add"
+      />
     </Fragment>
   );
 };
