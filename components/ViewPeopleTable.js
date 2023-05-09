@@ -1,7 +1,29 @@
-import Link from "next/link";
-import { people } from "@/dummy-data";
+import { getAllPeople } from "@/api-utils";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
-const ViewPeopleTable = () => {
+const ViewPeopleTable = (props) => {
+  const [loadedPeople, setLoadedPeople] = useState();
+
+  // const url = "https://localhost:7166/Person/GetAll";
+  // const { initialData, error } = useSWR(url, (url) => {
+  //   fetch(url).then((res) => res.json());
+  // });
+
+  // useEffect(() => {
+  //   if (initialData) {
+  //     const people = initialData.data;
+  //     setLoadedPeople(people);
+  //   }
+  // }, [initialData]);
+
+  // // const { people } = props;
+  // // console.log(people);
+
+  if (!loadedPeople) {
+    return <p className="center pt-6">Loading...</p>;
+  }
+
   return (
     <div className="md:px-32 py-8 w-full">
       <div className="shadow overflow-hidden rounded border-b border-gray-200">
@@ -33,7 +55,7 @@ const ViewPeopleTable = () => {
             </tr>
           </thead>
           <tbody className="text-gray-700">
-            {people.map((person) => {
+            {loadedPeople.map((person) => {
               return (
                 <tr key={person.userID}>
                   <td className="text-left py-3 px-4">{person.userID}</td>
@@ -60,5 +82,16 @@ const ViewPeopleTable = () => {
     </div>
   );
 };
+
+export async function getStaticProps() {
+  const allPeople = await getAllPeople();
+  console.log(allPeople);
+
+  return {
+    props: {
+      people: allPeople,
+    },
+  };
+}
 
 export default ViewPeopleTable;
