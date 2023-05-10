@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getAllPeople } from "@/api-utils";
 import { people } from "@/dummy-data";
 
 const ViewPeopleTable = () => {
