@@ -23,15 +23,14 @@ const validationSchema = Yup.object().shape({
 
   userType: Yup.string().required("Please select a user type"),
 
-  dateOfBirth: Yup.string().when("userType", {
+  dateOfBirth: Yup.date().when("userType", {
     is: (value) => value === "Pupil",
-    then: (dateSchema) => dateSchema.required("Date is required"),
+    then: (dateSchema) =>
+      dateSchema
+        .required("Date is required")
+        .min(new Date("2005-01-01"), "Date cannot be before 1/1/2005")
+        .max(new Date("2018-12-31"), "Date cannot be after 31/12/2018"),
   }),
-
-  dateOfBirth: Yup.date()
-    .required("Date is required")
-    .min(new Date("2005-01-01"), "Date cannot be before 1/1/2005")
-    .max(new Date("2018-12-31"), "Date cannot be after 31/12/2018"),
 
   yearGroup: Yup.string().when("userType", {
     is: (value) => value === "Pupil",
@@ -50,16 +49,30 @@ const initialValues = {
 };
 
 const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
+  const onSubmit = (values, { resetForm }) => {
+    console.log(values);
+    if (buttonTitle === "Update") {
+      alert("successfully updated");
+      resetForm({ values: "" });
+    }
+
+    alert("successfully added");
+    resetForm({ values: "" });
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => console.log(values)}
+      onSubmit={onSubmit}
     >
       {(formik) => {
-        const { values } = formik;
+        const { values, handleSubmit } = formik;
         return (
-          <Form className="mx-auto mt-20 flex max-w-8xl items-center justify-center">
+          <Form
+            onSubmit={handleSubmit}
+            className="mx-auto mt-20 flex max-w-8xl items-center justify-center"
+          >
             {/* title */}
             <div className="bg-white p-10 border-b border-gray-900/10 pb-12 shadow-lg">
               <h2 className="text-base font-semibold leading-7 text-gray-900">
