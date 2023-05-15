@@ -49,7 +49,7 @@ const initialValues = {
   yearGroup: "",
 };
 
-const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
+const AddPersonForm = ({ title, subTitle, buttonTitle }) => {
   const onSubmit = (values, { resetForm }) => {
     console.log(values);
     if (buttonTitle === "Update") {
@@ -283,4 +283,4 @@ const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
   );
 };
 
-export default AddPeopleForm;
+export default AddPersonForm;

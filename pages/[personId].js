@@ -1,10 +1,10 @@
 import { Fragment } from "react";
-import AddPeopleForm from "@/components/AddPeopleForm";
+import AddPersonForm from "@/components/AddPersonForm";
 
 const SinglePersonPage = () => {
   return (
     <Fragment>
-      <AddPeopleForm
+      <AddPersonForm
         title="Edit person"
         subTitle="Edit "
         buttonTitle="Update"

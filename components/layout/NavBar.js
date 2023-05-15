@@ -36,7 +36,7 @@ const NavBar = () => {
             Search People
           </Link>
           <Link
-            href="/addNewPerson"
+            href="/addPerson"
             className="text-base/6 font-semibold leading-6 text-gray-700"
           >
             Add People
@@ -75,7 +75,7 @@ const NavBar = () => {
                   Search People
                 </Link>
                 <Link
-                  href="/addNewPerson"
+                  href="/addPerson"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Add People

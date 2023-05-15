@@ -1,10 +1,10 @@
 import { Fragment } from "react";
-import AddPeopleForm from "@/components/AddPeopleForm";
+import AddPersonForm from "@/components/AddPersonForm";
 
-const AddNewPersonPage = () => {
+const AddPersonPage = () => {
   return (
     <Fragment>
-      <AddPeopleForm
+      <AddPersonForm
         title="Add a new person"
         subTitle="Add "
         buttonTitle="Add"
@@ -13,4 +13,4 @@ const AddNewPersonPage = () => {
   );
 };
 
-export default AddNewPersonPage;
+export default AddPersonPage;
