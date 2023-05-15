@@ -1,11 +1,12 @@
+import { Fragment } from "react";
+import { getAllPeople, getSchools } from "@/api-utils";
+
 import EmptyContent from "@/components/EmptyContent";
 import SearchForm from "@/components/SearchForm";
 import ViewPeopleTable from "@/components/ViewPeopleTable";
-import { getAllPeople } from "@/api-utils";
-import { Fragment } from "react";
 
 const PeopleSearchPage = (props) => {
-  const { people } = props;
+  const { people, schools } = props;
 
   return (
     <Fragment>
@@ -13,7 +14,7 @@ const PeopleSearchPage = (props) => {
       {people.length === 0 ? (
         <EmptyContent />
       ) : (
-        <ViewPeopleTable people={people} />
+        <ViewPeopleTable people={people} schools={schools} />
       )}
     </Fragment>
   );
@@ -21,11 +22,12 @@ const PeopleSearchPage = (props) => {
 
 export async function getStaticProps() {
   const allPeople = await getAllPeople();
-  console.log(allPeople);
+  const allSchools = await getSchools();
 
   return {
     props: {
       people: allPeople,
+      schools: allSchools,
     },
   };
 }

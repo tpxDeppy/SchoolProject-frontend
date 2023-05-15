@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const ViewPeopleTable = ({ people }) => {
+const ViewPeopleTable = ({ people, schools }) => {
   return (
     <div className="md:px-32 py-12 w-full">
       <div className="shadow overflow-hidden rounded border-b border-gray-200">
@@ -53,7 +53,18 @@ const ViewPeopleTable = ({ people }) => {
                   {person.yearGroup !== null && (
                     <td className="text-left py-3 px-4">{person.yearGroup}</td>
                   )}
-                  <td className="text-left py-3 px-4">{person.schoolID}</td>
+                  {schools.map((school) => {
+                    return (
+                      person.schoolID === school.schoolID && (
+                        <td
+                          key={school.schoolID}
+                          className="text-left py-3 px-4"
+                        >
+                          {school.schoolName}
+                        </td>
+                      )
+                    );
+                  })}
                   <td className="text-center py-3 px-4">
                     <Link
                       href={`/[${person.userID}]`}

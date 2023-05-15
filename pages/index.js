@@ -1,12 +1,12 @@
 import { Fragment } from "react";
-import { getAllPeople } from "@/api-utils";
+import { getAllPeople, getSchools } from "@/api-utils";
+
 import ViewPeopleTable from "@/components/ViewPeopleTable";
 import WelcomeBanner from "@/components/ui/WelcomeBanner";
 import EmptyContent from "@/components/EmptyContent";
 
 const HomePage = (props) => {
-  const { people } = props;
-  console.log(people);
+  const { people, schools } = props;
 
   return (
     <Fragment>
@@ -14,7 +14,7 @@ const HomePage = (props) => {
       {people.length === 0 ? (
         <EmptyContent />
       ) : (
-        <ViewPeopleTable people={people} />
+        <ViewPeopleTable people={people} schools={schools} />
       )}
     </Fragment>
   );
@@ -22,12 +22,12 @@ const HomePage = (props) => {
 
 export async function getStaticProps() {
   const allPeople = await getAllPeople();
-
-  console.log(allPeople);
+  const allSchools = await getSchools();
 
   return {
     props: {
       people: allPeople,
+      schools: allSchools,
     },
   };
 }
