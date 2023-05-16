@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { getAllPeople, getSchools } from "@/api-utils";
+import { getData } from "@/api-utils";
 
 import ViewPeopleTable from "@/components/ViewPeopleTable";
 import WelcomeBanner from "@/components/ui/WelcomeBanner";
@@ -12,7 +12,11 @@ const HomePage = (props) => {
     <Fragment>
       <WelcomeBanner />
       {people.length === 0 ? (
-        <EmptyContent />
+        <EmptyContent
+          text="Can't see anything?"
+          buttonLink="/addNewPerson"
+          buttonTitle="Start adding people"
+        />
       ) : (
         <ViewPeopleTable people={people} schools={schools} />
       )}
@@ -21,8 +25,8 @@ const HomePage = (props) => {
 };
 
 export async function getStaticProps() {
-  const allPeople = await getAllPeople();
-  const allSchools = await getSchools();
+  const allPeople = await getData("http://localhost:5206/Person/GetAll");
+  const allSchools = await getData("http://localhost:5206/School/All");
 
   return {
     props: {

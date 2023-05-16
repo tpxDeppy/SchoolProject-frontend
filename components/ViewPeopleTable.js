@@ -28,31 +28,37 @@ const ViewPeopleTable = ({ people, schools }) => {
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                 School
               </th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm"></th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm" />
             </tr>
           </thead>
           <tbody className="text-gray-700">
             {people.map((person) => {
               return (
                 <tr key={person.userID}>
-                  <td className="text-left py-3 px-4">{person.userID}</td>
+                  <td className="text-left py-3 px-4">
+                    {person.userID.slice(0, 8)}
+                  </td>
+
                   <td className="text-left py-3 px-4">{person.firstName}</td>
+
                   <td className="text-left py-3 px-4">{person.lastName}</td>
+
                   <td className="text-left py-3 px-4">{person.userType}</td>
-                  {person.dateOfBirth === null && (
+
+                  {person.dateOfBirth === null ? (
                     <td className="text-left py-3 px-4">-</td>
-                  )}
-                  {person.dateOfBirth !== null && (
+                  ) : (
                     <td className="text-left py-3 px-4">
                       {person.dateOfBirth.slice(0, 10)}
                     </td>
                   )}
-                  {person.yearGroup === null && (
+
+                  {person.yearGroup === null ? (
                     <td className="text-left py-3 px-4">-</td>
-                  )}
-                  {person.yearGroup !== null && (
+                  ) : (
                     <td className="text-left py-3 px-4">{person.yearGroup}</td>
                   )}
+
                   {schools.map((school) => {
                     return (
                       person.schoolID === school.schoolID && (
@@ -65,6 +71,7 @@ const ViewPeopleTable = ({ people, schools }) => {
                       )
                     );
                   })}
+
                   <td className="text-center py-3 px-4">
                     <Link
                       href={`/[${person.userID}]`}
