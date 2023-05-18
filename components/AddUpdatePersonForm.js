@@ -1,10 +1,10 @@
-import DeleteModal from "./DeleteModal";
+import { useState } from "react";
+import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
-import * as Yup from "yup";
+import DeleteModal from "./DeleteModal";
 
 const userTypeOptions = ["Teacher", "Pupil"];
-const schools = ["School 1", "School 2", "School 3"];
 const yearGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
 const validationSchema = Yup.object().shape({
@@ -40,25 +40,84 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  school: "",
-  userType: "",
-  dateOfBirth: "",
-  yearGroup: "",
-};
+const AddUpdatePersonForm = ({
+  title,
+  subTitle,
+  buttonTitle,
+  person,
+  schools,
+}) => {
+  const [firstName, setFirstName] = useState(
+    buttonTitle === "Add" ? "" : person?.firstName
+  );
+  const [lastName, setLastName] = useState(
+    buttonTitle === "Add" ? "" : person?.lastName
+  );
+  const [school, setSchool] = useState(
+    buttonTitle === "Add" ? "" : person?.schoolID
+  );
+  const [userType, setUserType] = useState(
+    buttonTitle === "Add" ? "" : person?.userType
+  );
+  const [dateOfBirth, setDateOfBirth] = useState(
+    buttonTitle === "Add"
+      ? ""
+      : person?.dateOfBirth || (person?.dateOfBirth === null && "")
+  );
+  const [yearGroup, setYearGroup] = useState(
+    buttonTitle === "Add"
+      ? ""
+      : person?.yearGroup || (person?.yearGroup === null && "")
+  );
 
-const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
+  const initialValues = {
+    firstName: firstName,
+    lastName: lastName,
+    school: school,
+    userType: userType,
+    dateOfBirth: dateOfBirth,
+    yearGroup: yearGroup,
+  };
+
   const onSubmit = (values, { resetForm }) => {
     console.log(values);
     if (buttonTitle === "Update") {
       alert("successfully updated");
-      resetForm({ values: "" });
+    } else {
+      alert("successfully added");
     }
 
-    alert("successfully added");
-    resetForm({ values: "" });
+    resetForm({ values: initialValues });
+    setFirstName("");
+    setLastName("");
+    setSchool("");
+    setUserType("");
+    setDateOfBirth("");
+    setYearGroup("");
+  };
+
+  const handleFirstName = (event) => {
+    setFirstName(event.target.value);
+  };
+
+  const handleLastName = (event) => {
+    setLastName(event.target.value);
+  };
+
+  const handleSchool = (event) => {
+    setSchool(event.target.value);
+  };
+
+  const handleUserType = (event) => {
+    setUserType(event.target.value);
+  };
+
+  const handleDoB = (event) => {
+    setDateOfBirth(event.target.value);
+  };
+
+  const handleYearGroup = (event) => {
+    setYearGroup(event.target.value);
   };
 
   return (
@@ -68,10 +127,11 @@ const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
       onSubmit={onSubmit}
     >
       {(formik) => {
-        const { values, handleSubmit } = formik;
+        const { values, handleSubmit, handleChange } = formik;
         return (
           <Form
             onSubmit={handleSubmit}
+            onChange={handleChange}
             className="mx-auto mt-20 flex max-w-8xl items-center justify-center"
           >
             {/* title */}
@@ -97,8 +157,10 @@ const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
                       type="text"
                       name="firstName"
                       id="firstName"
-                      placeholder="First name"
+                      placeholder="First Name"
+                      onChange={handleFirstName}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
+                      value={firstName}
                     />
                     <ErrorMessage
                       name="firstName"
@@ -121,7 +183,9 @@ const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
                       name="lastName"
                       id="lastName"
                       placeholder="Last name"
+                      onChange={handleLastName}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
+                      value={lastName}
                     />
                     <div>
                       <ErrorMessage
@@ -146,12 +210,21 @@ const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
                       id="school"
                       name="school"
                       as="select"
+                      onChange={handleSchool}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:max-w-xs sm:text-sm sm:leading-6"
                     >
+                      {schools.map(
+                        (school) =>
+                          school.schoolID === person?.schoolID && (
+                            <option value={""} key={school.schoolID}>
+                              {school.schoolName}
+                            </option>
+                          )
+                      )}
                       <option value={""}>Please Select</option>
                       {schools.map((school) => (
-                        <option value={school} key={school}>
-                          {school}
+                        <option value={school.schoolName} key={school.schoolID}>
+                          {school.schoolName}
                         </option>
                       ))}
                     </Field>
@@ -178,14 +251,23 @@ const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
                       id="userType"
                       name="userType"
                       as="select"
+                      onChange={handleUserType}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                      value={userType}
                     >
                       <option value={""}>Please Select</option>
-                      {userTypeOptions.map((userType) => (
-                        <option value={userType} key={userType}>
-                          {userType}
-                        </option>
-                      ))}
+                      {userTypeOptions.map(
+                        (userType) =>
+                          person?.userType !== null && (
+                            <option value={person?.userType}>
+                              {person?.userType}
+                            </option>
+                          ) && (
+                            <option value={userType} key={userType}>
+                              {userType}
+                            </option>
+                          )
+                      )}
                     </Field>
                     <div>
                       <ErrorMessage
@@ -212,7 +294,13 @@ const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
                           name="dateOfBirth"
                           type="date"
                           id="dateOfBirth"
+                          onChange={handleDoB}
                           className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full"
+                          value={
+                            person?.dateOfBirth !== null
+                              ? dateOfBirth.slice(0, 10)
+                              : undefined
+                          }
                         />
                       </div>
                       <div>
@@ -237,14 +325,23 @@ const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
                           id="yearGroup"
                           name="yearGroup"
                           as="select"
+                          onChange={handleYearGroup}
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          value={yearGroup}
                         >
                           <option value={""}>Please Select</option>
-                          {yearGroups.map((yearGroup) => (
-                            <option value={yearGroup} key={yearGroup}>
-                              {yearGroup}
-                            </option>
-                          ))}
+                          {yearGroups.map(
+                            (yearGroup) =>
+                              (
+                                <option value={person?.yearGroup}>
+                                  {person?.yearGroup}
+                                </option>
+                              ) && (
+                                <option value={yearGroup} key={yearGroup}>
+                                  {yearGroup}
+                                </option>
+                              )
+                          )}
                         </Field>
                         <div>
                           <ErrorMessage
@@ -283,4 +380,4 @@ const AddPeopleForm = ({ title, subTitle, buttonTitle }) => {
   );
 };
 
-export default AddPeopleForm;
+export default AddUpdatePersonForm;
