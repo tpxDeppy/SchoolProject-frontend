@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { SearchPeopleContext } from "@/pages/searchPeople/searchPeopleContext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -5,22 +7,62 @@ const validationSchema = Yup.object().shape({
   searchInput: Yup.string()
     .required("Type something to start searching...")
     .min(3, "Please enter an input that's at least 3 characters long")
-    .max(20, "Input cannot exceed the 20 characters"),
+    .max(20, "Input cannot exceed the 20 characters")
+    .matches(
+      /^[a-zA-Z]*$/,
+      "Please enter only letters. Numbers and white spaces are not allowed"
+    ),
 });
 
 const initialValues = { searchInput: "" };
 
 const SearchForm = () => {
+  const {
+    updateSearchQuery,
+    updateSearchResults,
+    updateError,
+    updateErrorMessage,
+  } = useContext(SearchPeopleContext);
+
+  const onSubmit = async (values) => {
+    console.log(values);
+    const searchQuery = values.searchInput.trim();
+
+    const url = `https://localhost:7166/Person/User/${searchQuery}`;
+
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const responseData = await response.json();
+        const resultData = responseData.data;
+        console.log(resultData);
+        updateError(false);
+        updateSearchQuery(searchQuery);
+        updateSearchResults(resultData);
+      } else {
+        const errorMessage = await response.text();
+        console.log(errorMessage);
+        updateError(true);
+        updateErrorMessage(errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      updateError(true);
+      updateErrorMessage(error);
+    }
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => console.log(values)}
+      onSubmit={onSubmit}
     >
       {(formik) => {
+        const { handleSubmit } = formik;
         return (
           <div className="max-w-2xl mx-auto mb-15">
-            <Form className="flex items-center">
+            <Form onSubmit={handleSubmit} className="flex items-center">
               <label htmlFor="simple-search" className="sr-only">
                 Search people
               </label>
@@ -43,7 +85,7 @@ const SearchForm = () => {
                   type="text"
                   name="searchInput"
                   id="searchInput"
-                  placeholder="Search"
+                  placeholder="Search a person by last name..."
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full pl-10 p-2.5"
                 />
               </div>
