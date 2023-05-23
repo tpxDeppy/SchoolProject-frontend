@@ -7,6 +7,7 @@ export const SearchPeopleProvider = ({ children }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showTable, setShowTable] = useState(true);
 
   const updateSearchQuery = (searchQuery) => {
     setSearchQuery(searchQuery);
@@ -24,6 +25,10 @@ export const SearchPeopleProvider = ({ children }) => {
     setErrorMessage(errorMsg);
   };
 
+  const updateShowTable = (showTableData) => {
+    setShowTable(showTableData);
+  };
+
   return (
     <SearchPeopleContext.Provider
       value={{
@@ -35,6 +40,8 @@ export const SearchPeopleProvider = ({ children }) => {
         updateError,
         errorMessage,
         updateErrorMessage,
+        showTable,
+        updateShowTable,
       }}
     >
       {children}
