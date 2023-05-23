@@ -3,7 +3,7 @@ import { getData } from "@/api-utils";
 
 import EmptyContent from "@/components/EmptyContent";
 import SearchForm from "@/components/SearchForm";
-import ViewPeopleTable from "@/components/ViewPeopleTable";
+import ViewPeopleByQuery from "@/components/ViewPeopleByQuery";
 
 const PeopleSearchPage = (props) => {
   const { people, schools } = props;
@@ -18,7 +18,7 @@ const PeopleSearchPage = (props) => {
           buttonTitle="Start adding people"
         />
       ) : (
-        <ViewPeopleTable people={people} schools={schools} />
+        <ViewPeopleByQuery schools={schools} />
       )}
     </Fragment>
   );
