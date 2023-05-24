@@ -53,3 +53,21 @@ export async function putData(url, putData) {
     console.error(error);
   }
 }
+
+export async function deleteData(url) {
+  try {
+    const response = await fetch(url, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const responseData = await response.json();
+    const data = responseData.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}

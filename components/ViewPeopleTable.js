@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const ViewPeopleTable = ({ people, schools }) => {
   return (
-    <div className="md:px-32 py-12 w-full">
+    <div className="md:px-32 py-12 mb-20 w-full">
       <div className="shadow overflow-hidden rounded border-b border-gray-200">
         <table className="min-w-full bg-white">
           <thead className="bg-cyan-700 text-white">

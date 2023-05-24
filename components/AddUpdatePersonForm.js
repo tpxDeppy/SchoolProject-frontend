@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
@@ -65,7 +66,8 @@ const AddUpdatePersonForm = ({
   const [dateOfBirth, setDateOfBirth] = useState(
     buttonTitle === "Add"
       ? null
-      : person?.dateOfBirth || (person?.dateOfBirth === null && null)
+      : (person?.dateOfBirth !== null && person?.dateOfBirth.slice(0, 10)) ||
+          (person?.dateOfBirth === null && null)
   );
   const [yearGroup, setYearGroup] = useState(
     buttonTitle === "Add"
@@ -82,19 +84,26 @@ const AddUpdatePersonForm = ({
     yearGroup: yearGroup,
   };
 
+  const { push } = useRouter();
+
   const onSubmit = async (values, { resetForm }) => {
-    console.log(values);
     if (buttonTitle === "Update") {
+      if (values.userType === "Teacher") {
+        values.dateOfBirth = null;
+        values.yearGroup = null;
+      }
       const personID = person?.userID;
       const updatedValues = {
         userID: personID,
         ...values,
       };
+      console.log(values);
       await putData(`https://localhost:7166/Person/${personID}`, updatedValues);
-      alert("successfully updated");
+      alert("Person was successfully updated");
+      push("/");
     } else {
       await postData("https://localhost:7166/Person/AddPerson", values);
-      alert("successfully added");
+      alert("Person was successfully added");
     }
 
     resetForm({ values: initialValues });
@@ -306,11 +315,7 @@ const AddUpdatePersonForm = ({
                           id="dateOfBirth"
                           onChange={handleDoB}
                           className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full"
-                          value={
-                            dateOfBirth !== null && person?.dateOfBirth !== null
-                              ? dateOfBirth.slice(0, 10)
-                              : ""
-                          }
+                          value={dateOfBirth || ""}
                         />
                       </div>
                       <div>
@@ -380,7 +385,7 @@ const AddUpdatePersonForm = ({
                 >
                   {buttonTitle}
                 </button>
-                {buttonTitle === "Update" && <DeleteModal />}
+                {buttonTitle === "Update" && <DeleteModal person={person} />}
               </div>
             </div>
           </Form>
