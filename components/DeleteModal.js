@@ -1,13 +1,23 @@
 import { Fragment, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { deleteData } from "@/api-utils";
 
-const DeleteModal = () => {
+const DeleteModal = ({ person }) => {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
+  const { push } = useRouter();
 
   const handleOpenButton = () => setOpen(true);
   const handleCloseButton = () => setOpen(false);
+
+  const handleDelete = async () => {
+    const personID = person?.userID;
+    await deleteData(`https://localhost:7166/Person/${personID}`);
+    setOpen(false);
+    push("/");
+  };
 
   return (
     <Fragment>
@@ -76,7 +86,7 @@ const DeleteModal = () => {
                     <button
                       type="button"
                       className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                      //onClick={handleCloseButton} to be changed
+                      onClick={handleDelete}
                     >
                       Delete
                     </button>

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
 import DeleteModal from "./DeleteModal";
+import { postData, putData } from "@/api-utils";
 
 const userTypeOptions = ["Teacher", "Pupil"];
 const yearGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
@@ -20,7 +22,7 @@ const validationSchema = Yup.object().shape({
     .max(30, "Last name must be not more than 30 characters.")
     .matches(/^[a-zA-Z]*$/, "Please enter only letters"),
 
-  school: Yup.string().required("Please select a school"),
+  schoolID: Yup.string().required("Please select a school"),
 
   userType: Yup.string().required("Please select a user type"),
 
@@ -31,12 +33,14 @@ const validationSchema = Yup.object().shape({
         .required("Date is required")
         .min(new Date("2005-01-01"), "Date cannot be before 1/1/2005")
         .max(new Date("2018-12-31"), "Date cannot be after 31/12/2018"),
+    otherwise: (dateSchema) => dateSchema.nullable(),
   }),
 
   yearGroup: Yup.string().when("userType", {
     is: (value) => value === "Pupil",
     then: (yearGroupSchema) =>
       yearGroupSchema.required("Please select a year group"),
+    otherwise: (yearGroupSchema) => yearGroupSchema.nullable(),
   }),
 });
 
@@ -53,7 +57,7 @@ const AddUpdatePersonForm = ({
   const [lastName, setLastName] = useState(
     buttonTitle === "Add" ? "" : person?.lastName
   );
-  const [school, setSchool] = useState(
+  const [schoolID, setSchoolID] = useState(
     buttonTitle === "Add" ? "" : person?.schoolID
   );
   const [userType, setUserType] = useState(
@@ -61,36 +65,51 @@ const AddUpdatePersonForm = ({
   );
   const [dateOfBirth, setDateOfBirth] = useState(
     buttonTitle === "Add"
-      ? ""
-      : person?.dateOfBirth || (person?.dateOfBirth === null && "")
+      ? null
+      : (person?.dateOfBirth !== null && person?.dateOfBirth.slice(0, 10)) ||
+          (person?.dateOfBirth === null && null)
   );
   const [yearGroup, setYearGroup] = useState(
     buttonTitle === "Add"
-      ? ""
-      : person?.yearGroup || (person?.yearGroup === null && "")
+      ? null
+      : person?.yearGroup || (person?.yearGroup === null && null)
   );
 
   const initialValues = {
     firstName: firstName,
     lastName: lastName,
-    school: school,
+    schoolID: schoolID,
     userType: userType,
     dateOfBirth: dateOfBirth,
     yearGroup: yearGroup,
   };
 
-  const onSubmit = (values, { resetForm }) => {
-    console.log(values);
+  const { push } = useRouter();
+
+  const onSubmit = async (values, { resetForm }) => {
     if (buttonTitle === "Update") {
-      alert("successfully updated");
+      if (values.userType === "Teacher") {
+        values.dateOfBirth = null;
+        values.yearGroup = null;
+      }
+      const personID = person?.userID;
+      const updatedValues = {
+        userID: personID,
+        ...values,
+      };
+      console.log(values);
+      await putData(`https://localhost:7166/Person/${personID}`, updatedValues);
+      alert("Person was successfully updated");
+      push("/");
     } else {
-      alert("successfully added");
+      await postData("https://localhost:7166/Person/AddPerson", values);
+      alert("Person was successfully added");
     }
 
     resetForm({ values: initialValues });
     setFirstName("");
     setLastName("");
-    setSchool("");
+    setSchoolID("");
     setUserType("");
     setDateOfBirth("");
     setYearGroup("");
@@ -105,7 +124,7 @@ const AddUpdatePersonForm = ({
   };
 
   const handleSchool = (event) => {
-    setSchool(event.target.value);
+    setSchoolID(event.target.value);
   };
 
   const handleUserType = (event) => {
@@ -200,15 +219,15 @@ const AddUpdatePersonForm = ({
                 {/*dropdown for school*/}
                 <div className="sm:col-span-3">
                   <label
-                    htmlFor="school"
+                    htmlFor="schoolID"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     School
                   </label>
                   <div className="mt-2">
                     <Field
-                      id="school"
-                      name="school"
+                      id="schoolID"
+                      name="schoolID"
                       as="select"
                       onChange={handleSchool}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:max-w-xs sm:text-sm sm:leading-6"
@@ -223,14 +242,14 @@ const AddUpdatePersonForm = ({
                       )}
                       <option value={""}>Please Select</option>
                       {schools.map((school) => (
-                        <option value={school.schoolName} key={school.schoolID}>
+                        <option value={school.schoolID} key={school.schoolID}>
                           {school.schoolName}
                         </option>
                       ))}
                     </Field>
                     <div>
                       <ErrorMessage
-                        name="school"
+                        name="schoolID"
                         component="span"
                         className="text-sm text-red-500"
                       />
@@ -296,11 +315,7 @@ const AddUpdatePersonForm = ({
                           id="dateOfBirth"
                           onChange={handleDoB}
                           className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full"
-                          value={
-                            person?.dateOfBirth !== null
-                              ? dateOfBirth.slice(0, 10)
-                              : undefined
-                          }
+                          value={dateOfBirth || ""}
                         />
                       </div>
                       <div>
@@ -327,7 +342,7 @@ const AddUpdatePersonForm = ({
                           as="select"
                           onChange={handleYearGroup}
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                          value={yearGroup}
+                          value={yearGroup || ""}
                         >
                           <option value={""}>Please Select</option>
                           {yearGroups.map(
@@ -370,7 +385,7 @@ const AddUpdatePersonForm = ({
                 >
                   {buttonTitle}
                 </button>
-                {buttonTitle === "Update" && <DeleteModal />}
+                {buttonTitle === "Update" && <DeleteModal person={person} />}
               </div>
             </div>
           </Form>
