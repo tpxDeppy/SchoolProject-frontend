@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { getData } from "@/api-utils";
-import AddUpdatePersonForm from "@/components/AddUpdatePersonForm";
+import AddUpdatePersonForm from "@/components/addUpdateDeletePeople/AddUpdatePersonForm";
 
 const AddPersonPage = (props) => {
   const { schools } = props;
@@ -19,7 +19,7 @@ const AddPersonPage = (props) => {
 
 export async function getStaticProps() {
   //get school data
-  const schools = await getData("http://localhost:5206/School/All");
+  const schools = await getData("https://localhost:7166/School/All");
 
   return {
     props: {

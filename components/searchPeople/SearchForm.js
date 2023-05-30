@@ -4,6 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { getData } from "@/api-utils";
 
+//The following form is not being used anymore
+
 const validationSchema = Yup.object().shape({
   filterOption: Yup.string().required("Please select a filter option"),
 
@@ -29,7 +31,7 @@ const SearchForm = () => {
     updateErrorMessage,
   } = useContext(SearchPeopleContext);
 
-  const fetchFilteredData = async (url, option = null, query = null) => {
+  const fetchFilteredData = async (url, query = null) => {
     try {
       const response = await fetch(url);
       if (response.ok) {
@@ -59,7 +61,7 @@ const SearchForm = () => {
 
     const url = `https://localhost:7166/Person/GetAll?filterOn=${filterOption}&filterQuery=${searchQuery}`;
 
-    fetchFilteredData(url, filterOption, searchQuery);
+    fetchFilteredData(url, searchQuery);
   };
 
   const handleSearch = (event) => {
