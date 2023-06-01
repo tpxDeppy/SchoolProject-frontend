@@ -1,29 +1,24 @@
 import { Fragment } from "react";
 import { getData } from "@/api-utils";
-import AddUpdatePersonForm from "@/components/addUpdateDeletePeople/AddUpdatePersonForm";
+import AddPerson from "@/components/person/addPerson";
 
 const AddPersonPage = (props) => {
   const { schools } = props;
 
   return (
-    <Fragment>
-      <AddUpdatePersonForm
-        title="Add a new person"
-        subTitle="Add "
-        buttonTitle="Add"
-        schools={schools}
-      />
-    </Fragment>
+    <div>
+      <AddPerson />
+    </div>
   );
 };
 
 export async function getStaticProps() {
   //get school data
-  const schools = await getData("https://localhost:7166/School/All");
+  // const schools = await getData("https://localhost:7166/School/All");
 
   return {
     props: {
-      schools: schools,
+      schools: {},
     },
   };
 }
