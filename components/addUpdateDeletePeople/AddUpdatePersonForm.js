@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
-import DeleteModal from "./DeleteModal";
+
 import { postData, putData } from "@/api-utils";
+import DeleteModal from "./DeleteModal";
 
 const userTypeOptions = ["Teacher", "Pupil"];
 const yearGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
@@ -86,7 +87,8 @@ const AddUpdatePersonForm = ({
 
   const { push } = useRouter();
 
-  const onSubmit = async (values, { resetForm }) => {
+  const onSubmit = async (values) => {
+    //update person
     if (buttonTitle === "Update") {
       if (values.userType === "Teacher") {
         values.dateOfBirth = null;
@@ -102,11 +104,11 @@ const AddUpdatePersonForm = ({
       alert("Person was successfully updated");
       push("/");
     } else {
+      //add new person
       await postData("https://localhost:7166/Person/AddPerson", values);
       alert("Person was successfully added");
     }
 
-    resetForm({ values: initialValues });
     setFirstName("");
     setLastName("");
     setSchoolID("");
@@ -151,7 +153,7 @@ const AddUpdatePersonForm = ({
           <Form
             onSubmit={handleSubmit}
             onChange={handleChange}
-            className="mx-auto mt-20 flex max-w-8xl items-center justify-center"
+            className="mx-auto mt-20 mb-20 flex max-w-8xl items-center justify-center"
           >
             {/* title */}
             <div className="bg-white p-10 border-b border-gray-900/10 pb-12 shadow-lg">
@@ -231,15 +233,8 @@ const AddUpdatePersonForm = ({
                       as="select"
                       onChange={handleSchool}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                      value={schoolID}
                     >
-                      {schools.map(
-                        (school) =>
-                          school.schoolID === person?.schoolID && (
-                            <option value={""} key={school.schoolID}>
-                              {school.schoolName}
-                            </option>
-                          )
-                      )}
                       <option value={""}>Please Select</option>
                       {schools.map((school) => (
                         <option value={school.schoolID} key={school.schoolID}>

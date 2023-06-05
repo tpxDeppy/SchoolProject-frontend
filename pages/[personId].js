@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 import { getData } from "@/api-utils";
-import AddUpdatePersonForm from "@/components/AddUpdatePersonForm";
+import AddUpdatePersonForm from "@/components/addUpdateDeletePeople/AddUpdatePersonForm";
 
 const SinglePersonPage = (props) => {
   const { person, schools } = props;
@@ -27,11 +27,11 @@ export async function getStaticProps(context) {
 
   //get person data
   const person = await getData(
-    `http://localhost:5206/Person/${personIdTrimmed}`
+    `https://localhost:7166/Person/${personIdTrimmed}`
   );
 
   //get school data
-  const schools = await getData("http://localhost:5206/School/All");
+  const schools = await getData("https://localhost:7166/School/All");
 
   if (!person) {
     return { notFound: true };
@@ -48,7 +48,7 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
   //pregenerate some people
-  const people = await getData("http://localhost:5206/Person/GetAll");
+  const people = await getData("https://localhost:7166/Person/GetAll");
 
   const numberOfPeople = 5;
   const firstFivePeople = people

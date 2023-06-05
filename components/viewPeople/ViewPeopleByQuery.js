@@ -3,7 +3,7 @@ import { SearchPeopleContext } from "@/pages/searchPeople/searchPeopleContext";
 import Link from "next/link";
 
 const ViewPeopleByQuery = ({ schools }) => {
-  const { searchQuery, searchResults, error, errorMessage } =
+  const { searchResults, error, errorMessage } =
     useContext(SearchPeopleContext);
   const people = searchResults;
 
@@ -13,24 +13,30 @@ const ViewPeopleByQuery = ({ schools }) => {
     );
   }
 
-  if (!searchQuery) {
-    return (
-      <div className="center text-lg pt-20 text-cyan-800">
-        Start searching...
-      </div>
-    );
-  }
-
   if (people.length === 0) {
     return (
-      <div className="center text-lg pt-20 text-cyan-800">
-        No results found with the input of '{searchQuery}'. Try again.
+      <div className="flex justify-center mt-20">
+        <div className="text-lg text-cyan-900">Start searching </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          className="w-6 h-6 text-cyan-900"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+          />
+        </svg>
       </div>
     );
   }
 
   return (
-    <div className="md:px-32 py-12 w-full">
+    <div className="md:px-32 mb-20 py-12 w-full">
       <div className="shadow overflow-hidden rounded border-b border-gray-200">
         <table className="min-w-full bg-white">
           <thead className="bg-cyan-700 text-white">
