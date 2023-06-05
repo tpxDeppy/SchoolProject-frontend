@@ -14,7 +14,7 @@ const HomePage = (props) => {
       {people.length === 0 ? (
         <EmptyContent
           text="Can't see anything?"
-          buttonLink="/addNewPerson"
+          buttonLink="/addPerson"
           buttonTitle="Start adding people"
         />
       ) : (

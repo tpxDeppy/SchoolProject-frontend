@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, useField } from "formik";
 import Link from "next/link";
 
 import { postData, putData } from "@/api-utils";
-import DeleteModal from "./DeleteModal";
+import DeleteModal from "../ui/DeleteModal";
 
 const userTypeOptions = ["Teacher", "Pupil"];
 const yearGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
@@ -51,6 +51,7 @@ const AddUpdatePersonForm = ({
   buttonTitle,
   person,
   schools,
+  classes,
 }) => {
   const [firstName, setFirstName] = useState(
     buttonTitle === "Add" ? "" : person?.firstName
@@ -83,11 +84,18 @@ const AddUpdatePersonForm = ({
     userType: userType,
     dateOfBirth: dateOfBirth,
     yearGroup: yearGroup,
+    personClasses: [],
   };
 
   const { push } = useRouter();
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, actions) => {
+    //convert array of ids to array of objects
+    const classIDs = [];
+    values.personClasses.map((each) => {
+      classIDs.push({ classID: each });
+    });
+
     //update person
     if (buttonTitle === "Update") {
       if (values.userType === "Teacher") {
@@ -98,17 +106,24 @@ const AddUpdatePersonForm = ({
       const updatedValues = {
         userID: personID,
         ...values,
+        personClasses: classIDs,
       };
-      console.log(values);
+      console.log(updatedValues);
       await putData(`https://localhost:7166/Person/${personID}`, updatedValues);
       alert("Person was successfully updated");
       push("/");
     } else {
       //add new person
-      await postData("https://localhost:7166/Person/AddPerson", values);
+      const newValues = {
+        ...values,
+        personClasses: classIDs,
+      };
+      console.log(newValues);
+      await postData("https://localhost:7166/Person/AddPerson", newValues);
       alert("Person was successfully added");
     }
 
+    actions.resetForm();
     setFirstName("");
     setLastName("");
     setSchoolID("");
@@ -141,6 +156,20 @@ const AddUpdatePersonForm = ({
     setYearGroup(event.target.value);
   };
 
+  const handleCheckboxChange = (fieldName, value, setFieldValue) => {
+    return () => {
+      const currentValues = value[fieldName] || [];
+      const existingClassIDs = currentValues.map((item) => item.classID);
+
+      const classID = value;
+      const newValues = existingClassIDs.includes(classID)
+        ? currentValues.filter((item) => item.classID !== classID)
+        : [...currentValues, classID];
+      console.log(newValues);
+      setFieldValue(fieldName, newValues);
+    };
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -148,7 +177,8 @@ const AddUpdatePersonForm = ({
       onSubmit={onSubmit}
     >
       {(formik) => {
-        const { values, handleSubmit, handleChange } = formik;
+        const { values, setFieldValue, handleSubmit, handleChange, actions } =
+          formik;
         return (
           <Form
             onSubmit={handleSubmit}
@@ -364,6 +394,45 @@ const AddUpdatePersonForm = ({
                     </div>
                   </>
                 )}
+
+                {/* Classes field */}
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="personClasses"
+                    className="mb-2 block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Choose classes
+                  </label>
+                  <div className="mt-2 p-2 rounded-md border-0 text-cyan-600 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    {classes.map((option) => (
+                      <label
+                        key={option.classID}
+                        className="block text-sm text-gray-700"
+                      >
+                        {option.className}
+                        <Field
+                          type="checkbox"
+                          name="personClasses"
+                          value={option.classID}
+                          className="ml-3 rounded-md border-0 text-cyan-600 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          checked={values.personClasses.some(
+                            (personClass) => personClass === option.classID
+                          )}
+                          onChange={handleCheckboxChange(
+                            "personClasses",
+                            option.classID,
+                            setFieldValue
+                          )}
+                        />
+                      </label>
+                    ))}
+                  </div>
+                  <ErrorMessage
+                    name="personClasses"
+                    component="span"
+                    className="text-sm text-red-500"
+                  />
+                </div>
               </div>
 
               {/* buttons */}
@@ -380,7 +449,9 @@ const AddUpdatePersonForm = ({
                 >
                   {buttonTitle}
                 </button>
-                {buttonTitle === "Update" && <DeleteModal person={person} />}
+                {buttonTitle === "Update" && (
+                  <DeleteModal modalTitle="person" toBeDeleted={person} />
+                )}
               </div>
             </div>
           </Form>

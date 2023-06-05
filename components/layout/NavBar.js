@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Dialog, Popover } from "@headlessui/react";
+import { Fragment, useState } from "react";
+import { Dialog, Menu, Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
@@ -29,20 +29,135 @@ const NavBar = () => {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Link
-            href="/searchPeople"
-            className="text-base/6 font-semibold leading-6 text-gray-700"
-          >
-            Search People
-          </Link>
-          <Link
-            href="/addPerson"
-            className="text-base/6 font-semibold leading-6 text-gray-700"
-          >
-            Add People
-          </Link>
+          {/* People dropdown menu */}
+          <Menu as="div" className="relative">
+            <div>
+              <Menu.Button className="flex text-base/6 font-semibold leading-6 text-gray-700">
+                <span className="sr-only">Open user menu</span>
+                People
+                <svg
+                  className="w-4 h-4 ml-1 mt-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </Menu.Button>
+            </div>
+            <Fragment>
+              <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+                <Menu.Item>
+                  <Link
+                    href="/searchPeople"
+                    className="block px-3 py-2 text-md text-gray-700"
+                  >
+                    Search People
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href="/addPerson"
+                    className="block px-3 py-2 text-md text-gray-700"
+                  >
+                    Add Person
+                  </Link>
+                </Menu.Item>
+              </Menu.Items>
+            </Fragment>
+          </Menu>
+
+          {/* Schools dropdown menu */}
+          <Menu as="div" className="relative">
+            <div>
+              <Menu.Button className="flex text-base/6 font-semibold leading-6 text-gray-700">
+                <span className="sr-only">Open user menu</span>
+                Schools
+                <svg
+                  className="w-4 h-4 ml-1 mt-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </Menu.Button>
+            </div>
+            <Fragment>
+              <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+                <Menu.Item>
+                  <Link
+                    href="/schoolList"
+                    className="block px-3 py-2 text-md text-gray-700"
+                  >
+                    School List
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href="/schoolList/addSchool"
+                    className="block px-3 py-2 text-md text-gray-700"
+                  >
+                    Add School
+                  </Link>
+                </Menu.Item>
+              </Menu.Items>
+            </Fragment>
+          </Menu>
+
+          {/* Classes dropdown menu */}
+          <Menu as="div" className="relative">
+            <div>
+              <Menu.Button className="flex text-base/6 font-semibold leading-6 text-gray-700">
+                <span className="sr-only">Open user menu</span>
+                Classes
+                <svg
+                  className="w-4 h-4 ml-1 mt-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </Menu.Button>
+            </div>
+            <Fragment>
+              <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+                <Menu.Item>
+                  <Link
+                    href="/classList"
+                    className="block px-3 py-2 text-md text-gray-700"
+                  >
+                    Class List
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href="/classList/addClass"
+                    className="block px-3 py-2 text-md text-gray-700"
+                  >
+                    Add Class
+                  </Link>
+                </Menu.Item>
+              </Menu.Items>
+            </Fragment>
+          </Menu>
         </Popover.Group>
       </nav>
+
+      {/* mobile menu */}
       <Dialog
         as="div"
         className="lg:hidden"
@@ -68,20 +183,137 @@ const NavBar = () => {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                <Link
-                  href="/searchPeople"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Search People
-                </Link>
-                <Link
-                  href="/addPerson"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Add People
-                </Link>
+                {/* People dropdown menu */}
+                <Menu as="div" className="relative">
+                  <div>
+                    <Menu.Button className="flex text-base/6 font-semibold leading-6 text-gray-700">
+                      <span className="sr-only">Open user menu</span>
+                      People
+                      <svg
+                        className="w-4 h-4 ml-1 mt-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </Menu.Button>
+                  </div>
+                  <Fragment>
+                    <Menu.Items className="absolute z-10 mt-2 w-40 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+                      <Menu.Item>
+                        <Link
+                          href="/searchPeople"
+                          className="block px-3 py-2 text-md text-gray-700"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Search People
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <Link
+                          href="/addPerson"
+                          className="block px-3 py-2 text-md text-gray-700"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Add Person
+                        </Link>
+                      </Menu.Item>
+                    </Menu.Items>
+                  </Fragment>
+                </Menu>
+
+                {/* Schools dropdown menu */}
+                <Menu as="div" className="relative">
+                  <div>
+                    <Menu.Button className="flex text-base/6 font-semibold leading-6 text-gray-700">
+                      <span className="sr-only">Open user menu</span>
+                      Schools
+                      <svg
+                        className="w-4 h-4 ml-1 mt-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </Menu.Button>
+                  </div>
+                  <Fragment>
+                    <Menu.Items className="absolute z-10 mt-2 w-40 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+                      <Menu.Item>
+                        <Link
+                          href="/schoolList"
+                          className="block px-3 py-2 text-md text-gray-700"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          School List
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <Link
+                          href="/schoolList/addSchool"
+                          className="block px-3 py-2 text-md text-gray-700"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Add School
+                        </Link>
+                      </Menu.Item>
+                    </Menu.Items>
+                  </Fragment>
+                </Menu>
+
+                {/* Classes dropdown menu */}
+                <Menu as="div" className="relative">
+                  <div>
+                    <Menu.Button className="flex text-base/6 font-semibold leading-6 text-gray-700">
+                      <span className="sr-only">Open user menu</span>
+                      Classes
+                      <svg
+                        className="w-4 h-4 ml-1 mt-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </Menu.Button>
+                  </div>
+                  <Fragment>
+                    <Menu.Items className="absolute z-10 mt-2 w-40 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+                      <Menu.Item>
+                        <Link
+                          href="/classList"
+                          className="block px-3 py-2 text-md text-gray-700"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Class List
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <Link
+                          href="/classList/addClass"
+                          className="block px-3 py-2 text-md text-gray-700"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Add Class
+                        </Link>
+                      </Menu.Item>
+                    </Menu.Items>
+                  </Fragment>
+                </Menu>
               </div>
             </div>
           </div>

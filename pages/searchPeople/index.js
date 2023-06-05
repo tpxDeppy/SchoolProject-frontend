@@ -5,11 +5,11 @@ import ViewPeopleByQuery from "@/components/viewPeople/ViewPeopleByQuery";
 import SearchByMultipleFields from "@/components/searchPeople/SearchByMultipleFields";
 
 const PeopleSearchPage = (props) => {
-  const { schools } = props;
+  const { schools, classes } = props;
 
   return (
     <Fragment>
-      <SearchByMultipleFields schools={schools} />
+      <SearchByMultipleFields schools={schools} classes={classes} />
       <ViewPeopleByQuery schools={schools} />
     </Fragment>
   );
@@ -17,10 +17,12 @@ const PeopleSearchPage = (props) => {
 
 export async function getStaticProps() {
   const allSchools = await getData("https://localhost:7166/School/All");
+  const allClasses = await getData("https://localhost:7166/Class/AllClasses");
 
   return {
     props: {
       schools: allSchools,
+      classes: allClasses,
     },
   };
 }
