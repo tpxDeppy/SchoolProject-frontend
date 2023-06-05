@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { getData } from "@/api-utils";
 
 import ViewClassesTable from "@/components/viewClasses/ViewClassesTable";
+import EmptyContent from "@/components/ui/EmptyContent";
 
 const ClassList = (props) => {
   const { classes } = props;

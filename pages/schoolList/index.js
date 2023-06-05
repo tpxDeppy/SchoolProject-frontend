@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { getData } from "@/api-utils";
 
 import ViewSchoolsTable from "@/components/viewSchools/ViewSchoolsTable";
+import EmptyContent from "@/components/ui/EmptyContent";
 
 const SchoolList = (props) => {
   const { schools } = props;

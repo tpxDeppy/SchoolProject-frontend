@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { SearchPeopleContext } from "@/pages/searchPeople/searchPeopleContext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -25,7 +25,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const SearchByMultipleFields = ({ schools, classes }) => {
-  console.log(classes);
   const {
     updateSearchQuery,
     updateSearchResults,
@@ -43,10 +42,14 @@ const SearchByMultipleFields = ({ schools, classes }) => {
   };
 
   //Ensuring that fields are empty and no (previously searched) results show when component mounts
-  useEffect(() => {
+  const resetQueryAndResults = useCallback(() => {
     updateSearchQuery(initialValues);
     updateSearchResults([]);
   }, []);
+
+  useEffect(() => {
+    resetQueryAndResults();
+  }, [resetQueryAndResults]);
 
   const fetchFilteredData = async (url, queries) => {
     try {
