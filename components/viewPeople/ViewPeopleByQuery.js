@@ -62,6 +62,9 @@ const ViewPeopleByQuery = ({ schools }) => {
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                 School
               </th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+                Classes
+              </th>
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm" />
             </tr>
           </thead>
@@ -105,6 +108,18 @@ const ViewPeopleByQuery = ({ schools }) => {
                       )
                     );
                   })}
+
+                  <td className="text-left py-3 px-4">
+                    {person.personClasses.length > 0
+                      ? person.personClasses.map((personClass) => {
+                          return (
+                            <p key={personClass.classID}>
+                              {personClass?.class?.className}
+                            </p>
+                          );
+                        })
+                      : "-"}
+                  </td>
 
                   <td className="text-center py-3 px-4">
                     <Link

@@ -4,7 +4,17 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { deleteData } from "@/api-utils";
 
-const DeleteModal = ({ person }) => {
+const DeleteModal = ({ modalTitle, toBeDeleted }) => {
+  let person;
+  let school;
+  let schoolClass;
+  if (modalTitle === "person") {
+    person = toBeDeleted;
+  } else if (modalTitle === "school") {
+    school = toBeDeleted;
+  } else {
+    schoolClass = toBeDeleted;
+  }
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
   const { push } = useRouter();
@@ -13,10 +23,22 @@ const DeleteModal = ({ person }) => {
   const handleCloseButton = () => setOpen(false);
 
   const handleDelete = async () => {
-    const personID = person?.userID;
-    await deleteData(`https://localhost:7166/Person/${personID}`);
-    setOpen(false);
-    push("/");
+    if (person) {
+      const personID = person?.userID;
+      await deleteData(`https://localhost:7166/Person/${personID}`);
+      setOpen(false);
+      push("/");
+    } else if (school) {
+      const schoolID = school?.schoolID;
+      await deleteData(`https://localhost:7166/School/${schoolID}`);
+      setOpen(false);
+      push("/schoolList");
+    } else {
+      const classID = schoolClass?.classID;
+      await deleteData(`https://localhost:7166/Class/${classID}`);
+      setOpen(false);
+      push("/classList");
+    }
   };
 
   return (
@@ -72,11 +94,11 @@ const DeleteModal = ({ person }) => {
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Delete person
+                          Delete {modalTitle}
                         </Dialog.Title>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            Are you sure you want to delete this person?
+                            Are you sure you want to delete this {modalTitle}?
                           </p>
                         </div>
                       </div>

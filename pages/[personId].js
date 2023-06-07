@@ -4,7 +4,7 @@ import { getData } from "@/api-utils";
 import AddUpdatePersonForm from "@/components/addUpdateDeletePeople/AddUpdatePersonForm";
 
 const SinglePersonPage = (props) => {
-  const { person, schools } = props;
+  const { person, schools, classes } = props;
 
   return (
     <Fragment>
@@ -14,6 +14,7 @@ const SinglePersonPage = (props) => {
         buttonTitle="Update"
         person={person}
         schools={schools}
+        classes={classes}
       />
     </Fragment>
   );
@@ -32,6 +33,8 @@ export async function getStaticProps(context) {
 
   //get school data
   const schools = await getData("https://localhost:7166/School/All");
+  //get class data
+  const allClasses = await getData("https://localhost:7166/Class/AllClasses");
 
   if (!person) {
     return { notFound: true };
@@ -41,6 +44,7 @@ export async function getStaticProps(context) {
     props: {
       person: person,
       schools: schools,
+      classes: allClasses,
     },
     revalidate: 30,
   };

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { SearchPeopleContext } from "@/pages/searchPeople/searchPeopleContext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -24,7 +24,7 @@ const validationSchema = Yup.object().shape({
     ),
 });
 
-const SearchByMultipleFields = ({ schools }) => {
+const SearchByMultipleFields = ({ schools, classes }) => {
   const {
     updateSearchQuery,
     updateSearchResults,
@@ -38,13 +38,18 @@ const SearchByMultipleFields = ({ schools }) => {
     userType: "",
     schoolName: "",
     yearGroup: "",
+    className: "",
   };
 
-  //Ensuring that fields are empty and no (previous searched) results show when component mounts
-  useEffect(() => {
+  //Ensuring that fields are empty and no (previously searched) results show when component mounts
+  const resetQueryAndResults = useCallback(() => {
     updateSearchQuery(initialValues);
     updateSearchResults([]);
   }, []);
+
+  useEffect(() => {
+    resetQueryAndResults();
+  }, [resetQueryAndResults]);
 
   const fetchFilteredData = async (url, queries) => {
     try {
@@ -111,7 +116,7 @@ const SearchByMultipleFields = ({ schools }) => {
       {(formik) => {
         const { handleSubmit, handleChange } = formik;
         return (
-          <div className="max-w-3xl mx-auto mb-15">
+          <div className="max-w-5xl mx-auto mb-15">
             <div className="center">
               <p className="font-semibold text-lg pb-2">
                 Search people or just click the button to see all the people in
@@ -119,7 +124,7 @@ const SearchByMultipleFields = ({ schools }) => {
               </p>
             </div>
             <Form onSubmit={handleSubmit} onChange={handleChange}>
-              <div className="mt-8 grid grid-rows-1 sm:grid-cols-5 gap-4">
+              <div className="mt-8 grid grid-rows-1 sm:grid-cols-6 gap-4">
                 {/*first name field*/}
                 <div>
                   <label
@@ -194,7 +199,7 @@ const SearchByMultipleFields = ({ schools }) => {
                     </Field>
                     <div>
                       <ErrorMessage
-                        name="schoolID"
+                        name="schoolName"
                         component="span"
                         className="text-sm text-red-500"
                       />
@@ -266,11 +271,46 @@ const SearchByMultipleFields = ({ schools }) => {
                   </div>
                 </div>
 
+                {/*dropdown for classes*/}
+                <div>
+                  <label
+                    htmlFor="className"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Class
+                  </label>
+                  <div className="mt-2">
+                    <Field
+                      id="className"
+                      name="className"
+                      as="select"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    >
+                      <option value={""}>Please Select</option>
+                      {classes.map((schoolClass) => (
+                        <option
+                          value={schoolClass.className}
+                          key={schoolClass.classID}
+                        >
+                          {schoolClass?.className}
+                        </option>
+                      ))}
+                    </Field>
+                    <div>
+                      <ErrorMessage
+                        name="className"
+                        component="span"
+                        className="text-sm text-red-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 {/* Clear filters button */}
                 <button
                   type="reset"
                   onClick={handleReset}
-                  className="p-2.5 col-end-5 text-sm font-medium text-white bg-cyan-700 rounded-lg hover:bg-cyan-500 focus:ring-4 focus:outline-none focus:ring-cyan-300 "
+                  className="p-2.5 col-end-4 text-sm font-medium text-white bg-cyan-700 rounded-lg hover:bg-cyan-500 focus:ring-4 focus:outline-none focus:ring-cyan-300 "
                 >
                   Clear filters
                 </button>
@@ -278,7 +318,7 @@ const SearchByMultipleFields = ({ schools }) => {
                 {/* Submit button */}
                 <button
                   type="submit"
-                  className="p-2.5 col-end-6 text-sm font-medium text-white bg-cyan-700 rounded-lg hover:bg-cyan-500 focus:ring-4 focus:outline-none focus:ring-cyan-300 "
+                  className="p-2.5 col-end-5 text-sm font-medium text-white bg-cyan-700 rounded-lg hover:bg-cyan-500 focus:ring-4 focus:outline-none focus:ring-cyan-300 "
                 >
                   <svg
                     className="w-5 h-5 mx-auto"
