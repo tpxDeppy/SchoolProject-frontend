@@ -23,7 +23,9 @@ const SchoolList = (props) => {
 };
 
 export async function getStaticProps() {
-  const allSchools = await getData("https://localhost:7166/School/All");
+  const apiUrl = process.env.NEXT_PUBLIC_HOST;
+
+  const allSchools = await getData(`${apiUrl}/School/All`);
 
   return {
     props: {

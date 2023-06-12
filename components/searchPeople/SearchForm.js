@@ -23,6 +23,8 @@ const filterOnOptions = ["See all", "LastName", "UserType", "SchoolName"];
 
 const initialValues = { filterOption: "", searchInput: "" };
 
+const apiUrl = process.env.NEXT_PUBLIC_HOST;
+
 const SearchForm = () => {
   const {
     updateSearchQuery,
@@ -59,7 +61,7 @@ const SearchForm = () => {
     const { filterOption, searchInput } = values;
     const searchQuery = searchInput.trim();
 
-    const url = `https://localhost:7166/Person/GetAll?filterOn=${filterOption}&filterQuery=${searchQuery}`;
+    const url = `${apiUrl}/Person/GetAll?filterOn=${filterOption}&filterQuery=${searchQuery}`;
 
     fetchFilteredData(url, searchQuery);
   };
@@ -70,7 +72,7 @@ const SearchForm = () => {
   };
 
   const handleSeeAllFilter = async (event) => {
-    const url = "https://localhost:7166/Person/GetAll";
+    const url = `${apiUrl}/Person/GetAll`;
 
     const selectedOption = event.target.value;
     if (selectedOption === "See all") {

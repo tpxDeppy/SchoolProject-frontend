@@ -1,21 +1,16 @@
 import { Fragment } from "react";
 
 import { getData } from "@/api-utils";
-import AddUpdatePersonForm from "@/components/addUpdateDeletePeople/AddUpdatePersonForm";
+import UpdatePerson from "@/components/person/UpdatePerson";
+
+const apiUrl = process.env.NEXT_PUBLIC_HOST;
 
 const SinglePersonPage = (props) => {
   const { person, schools, classes } = props;
 
   return (
     <Fragment>
-      <AddUpdatePersonForm
-        title="Edit person"
-        subTitle="Edit "
-        buttonTitle="Update"
-        person={person}
-        schools={schools}
-        classes={classes}
-      />
+      <UpdatePerson person={person} schools={schools} classes={classes} />
     </Fragment>
   );
 };
@@ -27,14 +22,12 @@ export async function getStaticProps(context) {
   const personIdTrimmed = personId.replace(/^\[|\]$/g, "");
 
   //get person data
-  const person = await getData(
-    `https://localhost:7166/Person/${personIdTrimmed}`
-  );
+  const person = await getData(`${apiUrl}/Person/${personIdTrimmed}`);
 
   //get school data
-  const schools = await getData("https://localhost:7166/School/All");
+  const schools = await getData(`${apiUrl}/School/All`);
   //get class data
-  const allClasses = await getData("https://localhost:7166/Class/AllClasses");
+  const allClasses = await getData(`${apiUrl}/Class/AllClasses`);
 
   if (!person) {
     return { notFound: true };
@@ -52,7 +45,7 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
   //pregenerate some people
-  const people = await getData("https://localhost:7166/Person/GetAll");
+  const people = await getData(`${apiUrl}/Person/GetAll`);
 
   const numberOfPeople = 5;
   const firstFivePeople = people

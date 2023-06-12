@@ -114,7 +114,7 @@ const ViewPeopleByQuery = ({ schools }) => {
                       ? person.personClasses.map((personClass) => {
                           return (
                             <p key={personClass.classID}>
-                              {personClass?.class?.className}
+                              {personClass?.className}
                             </p>
                           );
                         })
