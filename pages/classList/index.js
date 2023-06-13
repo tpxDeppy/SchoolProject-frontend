@@ -23,7 +23,9 @@ const ClassList = (props) => {
 };
 
 export async function getStaticProps() {
-  const allClasses = await getData("https://localhost:7166/Class/AllClasses");
+  const apiUrl = process.env.NEXT_PUBLIC_HOST;
+
+  const allClasses = await getData(`${apiUrl}/Class/AllClasses`);
 
   return {
     props: {

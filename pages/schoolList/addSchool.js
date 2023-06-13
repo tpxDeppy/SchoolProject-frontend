@@ -1,18 +1,11 @@
 import { Fragment } from "react";
 
-import AddUpdateSchoolForm from "@/components/addUpdateDeleteSchools/AddUpdateSchoolForm";
+import AddSchool from "@/components/school/AddSchool";
 
-const AddSchoolPage = (props) => {
-  const { schools } = props;
-
+const AddSchoolPage = () => {
   return (
     <Fragment>
-      <AddUpdateSchoolForm
-        title="Add a new school"
-        subTitle="Add "
-        buttonTitle="Add"
-        schools={schools}
-      />
+      <AddSchool />
     </Fragment>
   );
 };

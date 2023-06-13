@@ -1,45 +1,14 @@
 import { Fragment, useRef, useState } from "react";
-import { useRouter } from "next/router";
+
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { deleteData } from "@/api-utils";
 
-const DeleteModal = ({ modalTitle, toBeDeleted }) => {
-  let person;
-  let school;
-  let schoolClass;
-  if (modalTitle === "person") {
-    person = toBeDeleted;
-  } else if (modalTitle === "school") {
-    school = toBeDeleted;
-  } else {
-    schoolClass = toBeDeleted;
-  }
-  const [open, setOpen] = useState(false);
+const DeleteModal = ({ modalTitle, handleDelete }) => {
+  const [openModal, setOpenModal] = useState(false);
   const cancelButtonRef = useRef(null);
-  const { push } = useRouter();
 
-  const handleOpenButton = () => setOpen(true);
-  const handleCloseButton = () => setOpen(false);
-
-  const handleDelete = async () => {
-    if (person) {
-      const personID = person?.userID;
-      await deleteData(`https://localhost:7166/Person/${personID}`);
-      setOpen(false);
-      push("/");
-    } else if (school) {
-      const schoolID = school?.schoolID;
-      await deleteData(`https://localhost:7166/School/${schoolID}`);
-      setOpen(false);
-      push("/schoolList");
-    } else {
-      const classID = schoolClass?.classID;
-      await deleteData(`https://localhost:7166/Class/${classID}`);
-      setOpen(false);
-      push("/classList");
-    }
-  };
+  const handleOpenButton = () => setOpenModal(true);
+  const handleCloseButton = () => setOpenModal(false);
 
   return (
     <Fragment>
@@ -50,12 +19,12 @@ const DeleteModal = ({ modalTitle, toBeDeleted }) => {
       >
         Delete
       </button>
-      <Transition.Root show={open} as={Fragment}>
+      <Transition.Root show={openModal} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
           initialFocus={cancelButtonRef}
-          onClose={setOpen}
+          onClose={setOpenModal}
         >
           <Transition.Child
             as={Fragment}

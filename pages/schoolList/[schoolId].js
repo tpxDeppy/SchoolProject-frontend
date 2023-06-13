@@ -1,17 +1,15 @@
 import { Fragment } from "react";
-import AddUpdateSchoolForm from "@/components/addUpdateDeleteSchools/AddUpdateSchoolForm";
+
 import { getData } from "@/api-utils";
+import UpdateSchool from "@/components/school/UpdateSchool";
+
+const apiUrl = process.env.NEXT_PUBLIC_HOST;
 
 const SchoolPage = (props) => {
   const { school } = props;
   return (
     <Fragment>
-      <AddUpdateSchoolForm
-        title="Edit school"
-        subTitle="Edit "
-        buttonTitle="Update"
-        school={school}
-      />
+      <UpdateSchool school={school} />
     </Fragment>
   );
 };
@@ -20,7 +18,7 @@ export async function getStaticProps(context) {
   const { params } = context;
   const schoolId = params.schoolId.replace(/^\[|\]$/g, "");
 
-  const school = await getData(`https://localhost:7166/School/${schoolId}`);
+  const school = await getData(`${apiUrl}/School/${schoolId}`);
 
   if (!school) {
     return { notFound: true };
@@ -34,7 +32,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const schools = await getData("https://localhost:7166/School/All");
+  const schools = await getData(`${apiUrl}/School/All`);
 
   const idsToPaths = schools.map((school) => {
     return {

@@ -16,8 +16,10 @@ const PeopleSearchPage = (props) => {
 };
 
 export async function getStaticProps() {
-  const allSchools = await getData("https://localhost:7166/School/All");
-  const allClasses = await getData("https://localhost:7166/Class/AllClasses");
+  const apiUrl = process.env.NEXT_PUBLIC_HOST;
+
+  const allSchools = await getData(`${apiUrl}/School/All`);
+  const allClasses = await getData(`${apiUrl}/Class/AllClasses`);
 
   return {
     props: {

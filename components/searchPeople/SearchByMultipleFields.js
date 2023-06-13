@@ -77,9 +77,10 @@ const SearchByMultipleFields = ({ schools, classes }) => {
 
   const onSubmit = async (values) => {
     console.log(values);
+    const apiUrl = process.env.NEXT_PUBLIC_HOST;
 
     let params = "";
-    const url = "https://localhost:7166/Person/UserSearch";
+    const url = `${apiUrl}/Person/UserSearch`;
 
     //This enables showing all people when no values entered
     if (values === initialValues) {
