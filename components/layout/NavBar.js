@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { Dialog, Menu, Popover, Transition } from "@headlessui/react";
+import { Dialog, Menu, Popover } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
@@ -28,7 +28,10 @@ const NavBar = () => {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <Popover.Group className="hidden lg:flex lg:gap-x-12">
+        <Popover.Group
+          data-testid="menu-buttons"
+          className="hidden lg:flex lg:gap-x-12"
+        >
           {/* People dropdown menu */}
           <Menu as="div" className="relative">
             <div>
@@ -50,7 +53,10 @@ const NavBar = () => {
               </Menu.Button>
             </div>
             <Fragment>
-              <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+              <Menu.Items
+                data-testid="peopleDropdown"
+                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5"
+              >
                 <Menu.Item>
                   <Link
                     href="/searchPeople"
@@ -92,7 +98,10 @@ const NavBar = () => {
               </Menu.Button>
             </div>
             <Fragment>
-              <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+              <Menu.Items
+                data-testid="schoolsDropdown"
+                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5"
+              >
                 <Menu.Item>
                   <Link
                     href="/schoolList"
@@ -134,7 +143,10 @@ const NavBar = () => {
               </Menu.Button>
             </div>
             <Fragment>
-              <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
+              <Menu.Items
+                data-testid="classesDropdown"
+                className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5"
+              >
                 <Menu.Item>
                   <Link
                     href="/classList"
@@ -160,6 +172,7 @@ const NavBar = () => {
       {/* mobile menu */}
       <Dialog
         as="div"
+        data-testid="mobile-menu"
         className="lg:hidden"
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
