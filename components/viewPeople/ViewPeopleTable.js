@@ -34,7 +34,7 @@ const ViewPeopleTable = ({ people, schools }) => {
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm" />
             </tr>
           </thead>
-          <tbody className="text-gray-700">
+          <tbody data-testid="people" className="text-gray-700">
             {people.map((person) => {
               return (
                 <tr key={person.userID}>
@@ -62,18 +62,15 @@ const ViewPeopleTable = ({ people, schools }) => {
                     <td className="text-left py-3 px-4">{person.yearGroup}</td>
                   )}
 
-                  {schools.map((school) => {
-                    return (
-                      person.schoolID === school.schoolID && (
-                        <td
-                          key={school.schoolID}
-                          className="text-left py-3 px-4"
-                        >
-                          {school.schoolName}
-                        </td>
-                      )
-                    );
-                  })}
+                  <td className="text-left py-3 px-4">
+                    {schools.map((school) => {
+                      return (
+                        person.schoolID === school.schoolID && (
+                          <p key={school.schoolID}>{school.schoolName}</p>
+                        )
+                      );
+                    })}
+                  </td>
 
                   <td className="text-left py-3 px-4">
                     {person.personClasses.length > 0

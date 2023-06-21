@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { postData } from "@/api-utils";
 import AddUpdateSchoolForm from "./schoolForm/AddUpdateSchoolForm";
 
-const AddSchool = ({ school }) => {
+const AddSchool = () => {
   const { push } = useRouter();
 
   const onSubmit = async (values, actions) => {
