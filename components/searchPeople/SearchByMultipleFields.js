@@ -94,8 +94,9 @@ const SearchByMultipleFields = ({ schools, classes }) => {
         if (firstParam) {
           params += `?${key}=${values[key]}`;
           firstParam = false;
+        } else {
+          params += `&${key}=${values[key]}`;
         }
-        params += `&${key}=${values[key]}`;
       }
     });
 
@@ -318,6 +319,7 @@ const SearchByMultipleFields = ({ schools, classes }) => {
 
                 {/* Submit button */}
                 <button
+                  aria-label="submit button"
                   type="submit"
                   className="p-2.5 col-end-5 text-sm font-medium text-white bg-cyan-700 rounded-lg hover:bg-cyan-500 focus:ring-4 focus:outline-none focus:ring-cyan-300 "
                 >
