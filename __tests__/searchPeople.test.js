@@ -240,11 +240,13 @@ describe("PeopleSearchPage - ViewPeopleByQuery", () => {
   });
 
   test("should display an error message if search input is invalid", async () => {
-    fetch.mockImplementationOnce(() =>
-      Promise.reject(
-        "Please enter a valid query. Could not find any data based on what was requested."
-      )
-    );
+    fetch.mockResolvedValueOnce({
+      ok: false,
+      text: () =>
+        Promise.resolve(
+          "Please enter a valid query. Could not find any data based on what was requested."
+        ),
+    });
 
     renderComponent();
 
