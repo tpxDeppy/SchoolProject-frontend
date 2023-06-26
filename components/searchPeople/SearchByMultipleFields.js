@@ -54,29 +54,29 @@ const SearchByMultipleFields = ({ schools, classes }) => {
   const fetchFilteredData = async (url, queries) => {
     try {
       const response = await fetch(url + queries);
-      console.log(url + queries);
+      //console.log(url + queries);
       if (response.ok) {
         const responseData = await response.json();
         const resultData = responseData.data;
-        console.log(resultData);
+        //console.log(resultData);
         updateError(false);
         updateSearchQuery(queries);
         updateSearchResults(resultData);
       } else {
         const errorMessage = await response.text();
-        console.log(errorMessage);
+        //console.log(errorMessage);
         updateError(true);
         updateErrorMessage(errorMessage);
       }
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       updateError(true);
       updateErrorMessage(error);
     }
   };
 
   const onSubmit = async (values) => {
-    console.log(values);
+    //console.log(values);
     const apiUrl = process.env.NEXT_PUBLIC_HOST;
 
     let params = "";
