@@ -148,136 +148,135 @@ describe("NavBar", () => {
     expect(window.location.pathname).toBe("/");
   });
 
-  // test("should navigate to the correct page when clicking on Search People", async () => {
-  //   // Mock window.location
-  //   delete window.location;
-  //   window.location = { pathname: "" };
-  //   const mockLocation = { ...window.location };
-  
-  //   render(<NavBar />);
-  
-  //   // Revealing the people menu
-  //   const peopleMenuButton = screen.getByRole("button", { name: /people/i });
-  //   await userEvent.click(peopleMenuButton);
-  
-  //   const searchPeople = screen.getByRole("menuitem", {
-  //     name: /search people/i,
+  //   test("should navigate to the correct page when clicking on Search People", async () => {
+  //     delete window.location;
+  //     window.location = {
+  //       pathname: "/searchPeople",
+  //     };
+
+  //     render(<NavBar />);
+
+  //     //revealing the people menu
+  //     const peopleMenuButton = screen.getByRole("button", { name: /people/i });
+  //     await userEvent.click(peopleMenuButton);
+
+  //     const searchPeople = screen.getByRole("menuitem", {
+  //       name: /search people/i,
+  //     });
+  //     await userEvent.click(searchPeople);
+
+  //     expect(searchPeople).toHaveAttribute("href", "/searchPeople");
+  //     expect(window.location.pathname).toBe("/searchPeople");
   //   });
-  //   await userEvent.click(searchPeople);
-  
-  //   // Assert the expected behavior
-  //   expect(searchPeople).toHaveAttribute("href", "/searchPeople");
-  //   expect(mockLocation.pathname).toBe("/searchPeople");
-  // });
 
-  // test("should navigate to the correct page when clicking on Add Person", async () => {
-  //   delete window.location;
-  //   window.location = {
-  //     pathname: "/addPerson",
-  //   };
+  //   test("should navigate to the correct page when clicking on Add Person", async () => {
+  //     delete window.location;
+  //     window.location = {
+  //       pathname: "/addPerson",
+  //     };
 
-  //   render(<NavBar />);
+  //     render(<NavBar />);
 
-  //   //revealing the people menu
-  //   const peopleMenuButton = screen.getByRole("button", { name: /people/i });
-  //   await userEvent.click(peopleMenuButton);
+  //     //revealing the people menu
+  //     const peopleMenuButton = screen.getByRole("button", { name: /people/i });
+  //     await userEvent.click(peopleMenuButton);
 
-  //   const addPerson = screen.getByRole("menuitem", {
-  //     name: /add person/i,
+  //     const addPerson = screen.getByRole("menuitem", {
+  //       name: /add person/i,
+  //     });
+  //     await userEvent.click(addPerson);
+
+  //     expect(addPerson).toHaveAttribute("href", "/addPerson");
+  //     expect(window.location.pathname).toBe("/addPerson");
   //   });
-  //   await userEvent.click(addPerson);
 
-  //   expect(addPerson).toHaveAttribute("href", "/addPerson");
-  //   expect(window.location.pathname).toBe("/addPerson");
-  // });
+  //   test("should navigate to the correct page when clicking on School List", async () => {
+  //     delete window.location;
+  //     window.location = {
+  //       pathname: "/schoolList",
+  //     };
 
-  // test("should navigate to the correct page when clicking on School List", async () => {
-  //   delete window.location;
-  //   window.location = {
-  //     pathname: "/schoolList",
-  //   };
+  //     render(<NavBar />);
 
-  //   render(<NavBar />);
+  //     //revealing the school menu
+  //     const schoolsMenuButton = screen.getByRole("button", { name: /schools/i });
+  //     await userEvent.click(schoolsMenuButton);
 
-  //   //revealing the school menu
-  //   const schoolsMenuButton = screen.getByRole("button", { name: /schools/i });
-  //   await userEvent.click(schoolsMenuButton);
+  //     const schoolList = screen.getByRole("menuitem", {
+  //       name: /school list/i,
+  //     });
+  //     await userEvent.click(schoolList);
 
-  //   const schoolList = screen.getByRole("menuitem", {
-  //     name: /school list/i,
+  //     expect(schoolList).toHaveAttribute("href", "/schoolList");
+  //     expect(window.location.pathname).toBe("/schoolList");
   //   });
-  //   await userEvent.click(schoolList);
 
-  //   expect(schoolList).toHaveAttribute("href", "/schoolList");
-  //   expect(window.location.pathname).toBe("/schoolList");
-  // });
+  //   test("should navigate to the correct page when clicking on Add School", async () => {
+  //     delete window.location;
+  //     window.location = {
+  //       pathname: "/schoolList/addSchool",
+  //     };
 
-  // test("should navigate to the correct page when clicking on Add School", async () => {
-  //   delete window.location;
-  //   window.location = {
-  //     pathname: "/schoolList/addSchool",
-  //   };
+  //     render(<NavBar />);
 
-  //   render(<NavBar />);
+  //     //revealing the school menu
+  //     const schoolsMenuButton = screen.getByRole("button", {
+  //       name: /schools/i,
+  //     });
+  //     await userEvent.click(schoolsMenuButton);
 
-  //   //revealing the school menu
-  //   const schoolsMenuButton = screen.getByRole("button", {
-  //     name: /schools/i,
+  //     const addSchool = screen.getByRole("menuitem", {
+  //       name: /add school/i,
+  //     });
+  //     await userEvent.click(addSchool);
+
+  //     expect(addSchool).toHaveAttribute("href", "/schoolList/addSchool");
+  //     expect(window.location.pathname).toBe("/schoolList/addSchool");
   //   });
-  //   await userEvent.click(schoolsMenuButton);
 
-  //   const addSchool = screen.getByRole("menuitem", {
-  //     name: /add school/i,
+  //   test("should navigate to the correct page when clicking on Class List", async () => {
+  //     delete window.location;
+  //     window.location = {
+  //       pathname: "/classList",
+  //     };
+
+  //     render(<NavBar />);
+
+  //     //revealing the class menu
+  //     const classesMenuButton = screen.getByRole("button", {
+  //       name: /classes/i,
+  //     });
+  //     await userEvent.click(classesMenuButton);
+
+  //     const classList = screen.getByRole("menuitem", {
+  //       name: /class list/i,
+  //     });
+  //     await userEvent.click(classList);
+
+  //     expect(classList).toHaveAttribute("href", "/classList");
+  //     expect(window.location.pathname).toBe("/classList");
   //   });
-  //   await userEvent.click(addSchool);
 
-  //   expect(addSchool).toHaveAttribute("href", "/schoolList/addSchool");
-  //   expect(window.location.pathname).toBe("/schoolList/addSchool");
-  // });
+  //   test("should navigate to the correct page when clicking on Add Class", async () => {
+  //     delete window.location;
+  //     window.location = {
+  //       pathname: "/classList/addClass",
+  //     };
 
-  // test("should navigate to the correct page when clicking on Class List", async () => {
-  //   delete window.location;
-  //   window.location = {
-  //     pathname: "/classList",
-  //   };
+  //     render(<NavBar />);
 
-  //   render(<NavBar />);
+  //     //revealing the class menu
+  //     const classesMenuButton = screen.getByRole("button", {
+  //       name: /classes/i,
+  //     });
+  //     await userEvent.click(classesMenuButton);
 
-  //   //revealing the class menu
-  //   const classesMenuButton = screen.getByRole("button", {
-  //     name: /classes/i,
+  //     const addClass = screen.getByRole("menuitem", {
+  //       name: /add class/i,
+  //     });
+  //     await userEvent.click(addClass);
+
+  //     expect(addClass).toHaveAttribute("href", "/classList/addClass");
+  //     expect(window.location.pathname).toBe("/classList/addClass");
   //   });
-  //   await userEvent.click(classesMenuButton);
-
-  //   const classList = screen.getByRole("menuitem", {
-  //     name: /class list/i,
-  //   });
-  //   await userEvent.click(classList);
-
-  //   expect(classList).toHaveAttribute("href", "/classList");
-  //   expect(window.location.pathname).toBe("/classList");
-  // });
-
-  // test("should navigate to the correct page when clicking on Add Class", async () => {
-  //   delete window.location;
-  //   window.location = {
-  //     pathname: "/classList/addClass",
-  //   };
-
-  //   render(<NavBar />);
-
-  //   //revealing the class menu
-  //   const classesMenuButton = screen.getByRole("button", {
-  //     name: /classes/i,
-  //   });
-  //   await userEvent.click(classesMenuButton);
-
-  //   const addClass = screen.getByRole("menuitem", {
-  //     name: /add class/i,
-  //   });
-  //   await userEvent.click(addClass);
-
-  //   expect(addClass).toHaveAttribute("href", "/classList/addClass");
-  //   expect(window.location.pathname).toBe("/classList/addClass");
-  // });
 });
