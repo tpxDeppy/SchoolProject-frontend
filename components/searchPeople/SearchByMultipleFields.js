@@ -54,29 +54,29 @@ const SearchByMultipleFields = ({ schools, classes }) => {
   const fetchFilteredData = async (url, queries) => {
     try {
       const response = await fetch(url + queries);
-      console.log(url + queries);
+      //console.log(url + queries);
       if (response.ok) {
         const responseData = await response.json();
         const resultData = responseData.data;
-        console.log(resultData);
+        //console.log(resultData);
         updateError(false);
         updateSearchQuery(queries);
         updateSearchResults(resultData);
       } else {
         const errorMessage = await response.text();
-        console.log(errorMessage);
+        //console.log(errorMessage);
         updateError(true);
         updateErrorMessage(errorMessage);
       }
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       updateError(true);
       updateErrorMessage(error);
     }
   };
 
   const onSubmit = async (values) => {
-    console.log(values);
+    //console.log(values);
     const apiUrl = process.env.NEXT_PUBLIC_HOST;
 
     let params = "";
@@ -94,8 +94,9 @@ const SearchByMultipleFields = ({ schools, classes }) => {
         if (firstParam) {
           params += `?${key}=${values[key]}`;
           firstParam = false;
+        } else {
+          params += `&${key}=${values[key]}`;
         }
-        params += `&${key}=${values[key]}`;
       }
     });
 
@@ -318,6 +319,7 @@ const SearchByMultipleFields = ({ schools, classes }) => {
 
                 {/* Submit button */}
                 <button
+                  aria-label="submit button"
                   type="submit"
                   className="p-2.5 col-end-5 text-sm font-medium text-white bg-cyan-700 rounded-lg hover:bg-cyan-500 focus:ring-4 focus:outline-none focus:ring-cyan-300 "
                 >
