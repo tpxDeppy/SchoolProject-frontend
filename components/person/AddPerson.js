@@ -1,10 +1,10 @@
-import { useRouter } from "next/router";
+import { useState } from "react";
 
 import { postData } from "@/api-utils";
 import AddUpdatePersonForm from "./personForm/AddUpdatePersonForm";
 
 const AddPerson = ({ schools, classes }) => {
-  const { push } = useRouter();
+  const [message, setMessage] = useState("");
 
   const onSubmit = async (values, actions) => {
     const apiUrl = process.env.NEXT_PUBLIC_HOST;
@@ -21,9 +21,9 @@ const AddPerson = ({ schools, classes }) => {
       personClasses: classIDs,
     };
     console.log(newValues);
-    await postData(`${apiUrl}/Person/AddPerson`, newValues);
-    alert("Person was successfully added");
-    push("/");
+    await postData(`${apiUrl}/Person/AddPerson`, newValues).then(() =>
+      setMessage("Person was successfully added!")
+    );
 
     actions.resetForm();
   };
@@ -45,6 +45,7 @@ const AddPerson = ({ schools, classes }) => {
       schools={schools}
       classes={classes}
       onSubmit={onSubmit}
+      message={message}
     />
   );
 };

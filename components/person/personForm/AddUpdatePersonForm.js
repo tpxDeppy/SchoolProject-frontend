@@ -16,6 +16,7 @@ const AddUpdatePersonForm = ({
   classes,
   initialValues,
   onSubmit,
+  message,
 }) => {
   const formik = useFormik({
     initialValues: initialValues,
@@ -28,8 +29,22 @@ const AddUpdatePersonForm = ({
       onSubmit={formik.handleSubmit}
       className="mx-auto mt-20 mb-20 flex max-w-8xl items-center justify-center"
     >
-      {/* title */}
       <div className="bg-white p-10 border-b border-gray-900/10 pb-12 shadow-lg">
+        {/* confirmation message */}
+        <div className="text-base font-bold leading-7 pb-5 text-cyan-500">
+          {message}
+          {message && (
+            <Link
+              className="text-base font-bold leading-7 pb-5 text-gray-500"
+              href="/"
+            >
+              {" "}
+              Go to homepage
+            </Link>
+          )}
+        </div>
+
+        {/* title */}
         <h2 className="text-base font-semibold leading-7 text-gray-900">
           {title}
         </h2>
