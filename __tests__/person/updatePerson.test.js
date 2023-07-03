@@ -16,7 +16,7 @@ useRouter.mockReturnValue({
 });
 
 //mocking api module
-jest.mock("../api-utils");
+jest.mock("../../api-utils");
 
 const renderComponent = () => {
   const person = {
@@ -56,7 +56,7 @@ describe("UpdatePerson", () => {
     expect(deleteButton).toBeInTheDocument();
   });
 
-  test("should display an alert with a confirmation message when updating a person", async () => {
+  test("should display a confirmation message when updating a person", async () => {
     const mockResponse = {
       data: [
         {

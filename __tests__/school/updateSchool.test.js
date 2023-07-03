@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { useRouter } from "next/router";
 import "@testing-library/jest-dom";
 import { putData } from "@/api-utils";
-import UpdateClass from "@/components/class/UpdateClass";
+import UpdateSchool from "@/components/school/UpdateSchool";
 
 //mocking useRouter
 jest.mock("next/router", () => ({
@@ -16,19 +16,15 @@ useRouter.mockReturnValue({
 });
 
 //mocking api module
-jest.mock("../api-utils");
+jest.mock("../../api-utils");
 
 const renderComponent = () => {
-  const schoolClass = {
-    classID: "class1",
-    className: "Class A",
-    classDescription: "This is Class A",
-  };
+  const school = { schoolID: "school1", schoolName: "School A" };
 
-  render(<UpdateClass schoolClass={schoolClass} />);
+  render(<UpdateSchool school={school} />);
 };
 
-describe("UpdateClass", () => {
+describe("UpdateSchool", () => {
   test("should display a 'Cancel' link, an 'Update' and 'Delete' button", () => {
     renderComponent();
 
@@ -36,50 +32,37 @@ describe("UpdateClass", () => {
     const updateButton = screen.getByRole("button", { name: /update/i });
     const deleteButton = screen.getByRole("button", { name: /delete/i });
 
-    expect(cancelLink).toHaveAttribute("href", "/classList");
+    expect(cancelLink).toHaveAttribute("href", "/schoolList");
     expect(updateButton).toBeInTheDocument();
     expect(deleteButton).toBeInTheDocument();
   });
 
-  test("should display a confirmation message when updating a class", async () => {
+  test("should display a confirmation message when updating a school", async () => {
     const mockResponse = [
-      {
-        classID: "class1",
-        className: "Class A",
-        classDescription: "This is Class A",
-      },
-      {
-        classID: "class2",
-        className: "Class B",
-        classDescription: "This is Class B",
-      },
+      { schoolID: "school1", schoolName: "School A" },
+      { schoolID: "school2", schoolName: "School B" },
+      { schoolID: "school3", schoolName: "School C" },
     ];
     putData.mockResolvedValue(mockResponse);
 
     renderComponent();
 
-    const className = screen.getByRole("textbox", { name: /class name/i });
-    await userEvent.click(className);
-    await userEvent.keyboard("{backspace}F");
-
-    const classDescription = screen.getByRole("textbox", {
-      name: /class description/i,
-    });
-    await userEvent.click(classDescription);
-    await userEvent.keyboard("{backspace}F");
+    const schoolName = screen.getByRole("textbox");
+    await userEvent.click(schoolName);
+    await userEvent.keyboard("{backspace}D");
 
     const updateButton = screen.getByRole("button", { name: /update/i });
     await userEvent.click(updateButton);
 
     //confirmation message should appear
     const successMessage = await screen.findByText(
-      /class was successfully updated!/i
+      /school was successfully updated!/i
     );
-    const linkToClassList = screen.getByRole("link", {
-      name: /go to class list/i,
+    const linkToSchoolList = screen.getByRole("link", {
+      name: /go to school list/i,
     });
 
     expect(successMessage).toBeInTheDocument();
-    expect(linkToClassList).toHaveAttribute("href", "/classList");
+    expect(linkToSchoolList).toHaveAttribute("href", "/schoolList");
   });
 });

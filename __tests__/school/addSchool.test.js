@@ -5,7 +5,7 @@ import { postData } from "@/api-utils";
 import AddSchool from "@/components/school/AddSchool";
 
 //mocking api module
-jest.mock("../api-utils");
+jest.mock("../../api-utils");
 
 describe("AddSchool", () => {
   test("should display a 'Cancel' link and an 'Add' button", () => {

@@ -5,7 +5,7 @@ import { postData } from "@/api-utils";
 import AddClass from "@/components/class/AddClass";
 
 //mocking api module
-jest.mock("../api-utils");
+jest.mock("../../api-utils");
 
 describe("AddClass", () => {
   test("should display a 'Cancel' link and an 'Add' button", () => {
