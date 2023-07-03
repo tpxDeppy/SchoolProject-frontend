@@ -8,7 +8,7 @@ const validationSchema = Yup.object().shape({
 
   classDescription: Yup.string()
     .required("Class description is required")
-    .min(3, "Class description must be at least 2 characters.")
+    .min(3, "Class description must be at least 3 characters.")
     .max(100, "Class description must be not more than 100 characters."),
 });
 

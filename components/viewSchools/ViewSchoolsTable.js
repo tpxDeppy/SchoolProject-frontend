@@ -19,7 +19,7 @@ const ViewSchoolsTable = ({ schools }) => {
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm" />
             </tr>
           </thead>
-          <tbody className="text-gray-700">
+          <tbody data-testid="schools" className="text-gray-700">
             {schools.map((school) => {
               return (
                 <tr key={school.schoolID}>
