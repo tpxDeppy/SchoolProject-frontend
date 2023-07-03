@@ -1,10 +1,10 @@
-import { useRouter } from "next/router";
+import { useState } from "react";
 
 import { putData } from "@/api-utils";
 import AddUpdateSchoolForm from "./schoolForm/AddUpdateSchoolForm";
 
 const UpdateSchool = ({ school }) => {
-  const { push } = useRouter();
+  const [message, setMessage] = useState("");
 
   const onSubmit = async (values, actions) => {
     const apiUrl = process.env.NEXT_PUBLIC_HOST;
@@ -16,9 +16,9 @@ const UpdateSchool = ({ school }) => {
       ...values,
     };
     console.log(values);
-    await putData(`${apiUrl}/School/${schoolID}`, updatedValues);
-    alert("School was successfully updated");
-    push("/schoolList");
+    await putData(`${apiUrl}/School/${schoolID}`, updatedValues).then(() =>
+      setMessage("School was successfully updated!")
+    );
 
     actions.resetForm();
   };
@@ -33,6 +33,7 @@ const UpdateSchool = ({ school }) => {
       }}
       school={school}
       onSubmit={onSubmit}
+      message={message}
     />
   );
 };

@@ -22,7 +22,7 @@ const ViewClassesTable = ({ classes }) => {
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm" />
             </tr>
           </thead>
-          <tbody className="text-gray-700">
+          <tbody data-testid="classes" className="text-gray-700">
             {classes.map((eachClass) => {
               return (
                 <tr key={eachClass.classID}>
