@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import AddUpdatePersonForm from "../components/person/personForm/AddUpdatePersonForm";
+import AddUpdatePersonForm from "../../components/person/personForm/AddUpdatePersonForm";
 
 const renderComponent = (initialValues) => {
   const schools = [

@@ -5,7 +5,7 @@ import { postData } from "@/api-utils";
 import AddPerson from "@/components/person/AddPerson";
 
 //mocking api module
-jest.mock("../api-utils");
+jest.mock("../../api-utils");
 
 const renderComponent = () => {
   const schools = [

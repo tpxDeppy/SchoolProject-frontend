@@ -24,7 +24,7 @@ class ResizeObserverMock {
 global.ResizeObserver = ResizeObserverMock;
 
 //mocking api module
-jest.mock("../api-utils");
+jest.mock("../../api-utils");
 
 const renderComponent = () => {
   const school = { schoolID: "school1", schoolName: "School A" };
