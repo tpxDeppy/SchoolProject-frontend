@@ -6,7 +6,7 @@ import AddUpdateClassForm from "./classForm/AddUpdateClassForm";
 const UpdateClass = ({ schoolClass }) => {
   const [message, setMessage] = useState("");
 
-  const onSubmit = async (values, actions) => {
+  const onSubmit = async (values) => {
     const apiUrl = process.env.NEXT_PUBLIC_HOST;
 
     //update class
@@ -19,8 +19,6 @@ const UpdateClass = ({ schoolClass }) => {
     await putData(`${apiUrl}/Class/${classID}`, updatedValues).then(() =>
       setMessage("Class was successfully updated!")
     );
-
-    actions.resetForm();
   };
 
   return (
@@ -35,6 +33,7 @@ const UpdateClass = ({ schoolClass }) => {
       schoolClass={schoolClass}
       onSubmit={onSubmit}
       message={message}
+      setMessage={setMessage}
     />
   );
 };

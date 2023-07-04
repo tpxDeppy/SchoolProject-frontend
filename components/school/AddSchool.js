@@ -27,6 +27,7 @@ const AddSchool = () => {
       }}
       onSubmit={onSubmit}
       message={message}
+      setMessage={setMessage}
     />
   );
 };

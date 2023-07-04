@@ -115,10 +115,15 @@ describe("UpdatePerson", () => {
     const updateButton = screen.getByRole("button", { name: /update/i });
     await userEvent.click(updateButton);
 
-    //confirmation message should appear
-    const successMessage = await screen.findByText(
+    //confirmation modal should appear
+    const successMessage = screen.getByText(
       /person was successfully updated!/i
     );
+    const linkToNavigateAway = screen.getByRole("link", {
+      name: /go to homepage/i,
+    });
+
     expect(successMessage).toBeInTheDocument();
+    expect(linkToNavigateAway).toHaveAttribute("href", "/");
   });
 });

@@ -101,15 +101,44 @@ describe("AddPerson", () => {
     const addButton = screen.getByRole("button", { name: /add/i });
     await userEvent.click(addButton);
 
-    //confirmation message should appear
-    const successMessage = await screen.findByText(
-      /person was successfully added!/i
-    );
-    const linkToHomepage = screen.getByRole("link", {
+    //confirmation modal should appear
+    const successMessage = screen.getByText(/person was successfully added!/i);
+    const buttonToAddMore = screen.getByRole("button", {
+      name: /add more/i,
+    });
+    const linkToNavigateAway = screen.getByRole("link", {
       name: /go to homepage/i,
     });
 
     expect(successMessage).toBeInTheDocument();
-    expect(linkToHomepage).toHaveAttribute("href", "/");
+    expect(buttonToAddMore).toBeInTheDocument();
+    expect(linkToNavigateAway).toHaveAttribute("href", "/");
+
+    //add another person
+    await userEvent.click(buttonToAddMore);
+
+    await userEvent.click(firstName);
+    await userEvent.keyboard("Mark");
+
+    await userEvent.click(lastName);
+    await userEvent.keyboard("Well");
+
+    await userEvent.selectOptions(
+      screen.getByRole("combobox", { name: /school/i }),
+      screen.getByRole("option", { name: "School 2" })
+    );
+
+    await userEvent.selectOptions(
+      screen.getByRole("combobox", { name: /user type/i }),
+      screen.getByRole("option", { name: "Teacher" })
+    );
+
+    await userEvent.click(addButton);
+    expect(
+      screen.getByText(/person was successfully added!/i)
+    ).toBeInTheDocument();
+
+    await userEvent.click(linkToNavigateAway);
+    expect(successMessage).not.toBeInTheDocument();
   });
 });

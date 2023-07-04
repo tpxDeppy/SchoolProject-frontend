@@ -48,15 +48,21 @@ describe("AddClass", () => {
     const addButton = screen.getByRole("button");
     await userEvent.click(addButton);
 
-    //confirmation message should appear
-    const successMessage = await screen.findByText(
-      /class was successfully added!/i
-    );
-    const linkToClassList = screen.getByRole("link", {
+    //confirmation modal should appear
+    const successMessage = screen.getByText(/class was successfully added!/i);
+    const buttonToAddMore = screen.getByRole("button", {
+      name: /add more/i,
+    });
+    const linkToNavigateAway = screen.getByRole("link", {
       name: /go to class list/i,
     });
 
     expect(successMessage).toBeInTheDocument();
-    expect(linkToClassList).toHaveAttribute("href", "/classList");
+    expect(buttonToAddMore).toBeInTheDocument();
+    expect(linkToNavigateAway).toHaveAttribute("href", "/classList");
+
+    //click button to add another class
+    await userEvent.click(buttonToAddMore);
+    expect(successMessage).not.toBeInTheDocument();
   });
 });

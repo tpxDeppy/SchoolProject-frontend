@@ -6,7 +6,7 @@ import AddUpdateSchoolForm from "./schoolForm/AddUpdateSchoolForm";
 const UpdateSchool = ({ school }) => {
   const [message, setMessage] = useState("");
 
-  const onSubmit = async (values, actions) => {
+  const onSubmit = async (values) => {
     const apiUrl = process.env.NEXT_PUBLIC_HOST;
 
     //update school
@@ -19,8 +19,6 @@ const UpdateSchool = ({ school }) => {
     await putData(`${apiUrl}/School/${schoolID}`, updatedValues).then(() =>
       setMessage("School was successfully updated!")
     );
-
-    actions.resetForm();
   };
 
   return (
@@ -34,6 +32,7 @@ const UpdateSchool = ({ school }) => {
       school={school}
       onSubmit={onSubmit}
       message={message}
+      setMessage={setMessage}
     />
   );
 };

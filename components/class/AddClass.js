@@ -28,6 +28,7 @@ const AddClass = () => {
       }}
       onSubmit={onSubmit}
       message={message}
+      setMessage={setMessage}
     />
   );
 };

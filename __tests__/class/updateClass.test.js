@@ -71,10 +71,8 @@ describe("UpdateClass", () => {
     const updateButton = screen.getByRole("button", { name: /update/i });
     await userEvent.click(updateButton);
 
-    //confirmation message should appear
-    const successMessage = await screen.findByText(
-      /class was successfully updated!/i
-    );
+    //confirmation modal should appear
+    const successMessage = screen.getByText(/class was successfully updated!/i);
     const linkToClassList = screen.getByRole("link", {
       name: /go to class list/i,
     });

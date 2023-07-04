@@ -6,7 +6,7 @@ import AddUpdatePersonForm from "./personForm/AddUpdatePersonForm";
 const UpdatePerson = ({ person, schools, classes }) => {
   const [message, setMessage] = useState("");
 
-  const onSubmit = async (values, actions) => {
+  const onSubmit = async (values) => {
     const apiUrl = process.env.NEXT_PUBLIC_HOST;
 
     //convert array of ids to array of objects
@@ -34,8 +34,6 @@ const UpdatePerson = ({ person, schools, classes }) => {
     await putData(`${apiUrl}/Person/${personID}`, updatedValues).then(() =>
       setMessage("Person was successfully updated!")
     );
-
-    actions.resetForm();
   };
 
   return (
@@ -59,6 +57,7 @@ const UpdatePerson = ({ person, schools, classes }) => {
       classes={classes}
       onSubmit={onSubmit}
       message={message}
+      setMessage={setMessage}
     />
   );
 };
