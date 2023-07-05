@@ -32,6 +32,10 @@ describe("AddSchool", () => {
     await userEvent.click(schoolName);
     await userEvent.keyboard("New School");
 
+    //confirmation modal should not exist
+    const successModal = screen.queryByTestId("success-modal");
+    expect(successModal).not.toBeInTheDocument();
+
     const addButton = screen.getByRole("button");
     await userEvent.click(addButton);
 
@@ -44,6 +48,7 @@ describe("AddSchool", () => {
       name: /go to school list/i,
     });
 
+    expect(screen.getByTestId("success-modal")).toBeInTheDocument();
     expect(successMessage).toBeInTheDocument();
     expect(buttonToAddMore).toBeInTheDocument();
     expect(linkToNavigateAway).toHaveAttribute("href", "/schoolList");

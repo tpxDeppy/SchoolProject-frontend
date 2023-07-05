@@ -98,6 +98,10 @@ describe("AddPerson", () => {
     });
     await userEvent.click(class2);
 
+    //confirmation modal should not exist
+    const successModal = screen.queryByTestId("success-modal");
+    expect(successModal).not.toBeInTheDocument();
+
     const addButton = screen.getByRole("button", { name: /add/i });
     await userEvent.click(addButton);
 
@@ -110,6 +114,7 @@ describe("AddPerson", () => {
       name: /go to homepage/i,
     });
 
+    expect(screen.getByTestId("success-modal")).toBeInTheDocument();
     expect(successMessage).toBeInTheDocument();
     expect(buttonToAddMore).toBeInTheDocument();
     expect(linkToNavigateAway).toHaveAttribute("href", "/");
@@ -139,6 +144,7 @@ describe("AddPerson", () => {
     ).toBeInTheDocument();
 
     await userEvent.click(linkToNavigateAway);
+    expect(successModal).not.toBeInTheDocument();
     expect(successMessage).not.toBeInTheDocument();
   });
 });

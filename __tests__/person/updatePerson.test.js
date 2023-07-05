@@ -112,6 +112,10 @@ describe("UpdatePerson", () => {
     });
     await userEvent.click(class2);
 
+    //confirmation modal should not exist
+    const successModal = screen.queryByTestId("success-modal");
+    expect(successModal).not.toBeInTheDocument();
+
     const updateButton = screen.getByRole("button", { name: /update/i });
     await userEvent.click(updateButton);
 
@@ -123,6 +127,7 @@ describe("UpdatePerson", () => {
       name: /go to homepage/i,
     });
 
+    expect(screen.getByTestId("success-modal")).toBeInTheDocument();
     expect(successMessage).toBeInTheDocument();
     expect(linkToNavigateAway).toHaveAttribute("href", "/");
   });

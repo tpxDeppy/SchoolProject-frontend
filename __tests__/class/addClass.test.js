@@ -45,6 +45,10 @@ describe("AddClass", () => {
     await userEvent.click(classDescription);
     await userEvent.keyboard("New Class Description");
 
+    //confirmation modal should not exist
+    const successModal = screen.queryByTestId("success-modal");
+    expect(successModal).not.toBeInTheDocument();
+
     const addButton = screen.getByRole("button");
     await userEvent.click(addButton);
 
@@ -57,6 +61,7 @@ describe("AddClass", () => {
       name: /go to class list/i,
     });
 
+    expect(screen.getByTestId("success-modal")).toBeInTheDocument();
     expect(successMessage).toBeInTheDocument();
     expect(buttonToAddMore).toBeInTheDocument();
     expect(linkToNavigateAway).toHaveAttribute("href", "/classList");
