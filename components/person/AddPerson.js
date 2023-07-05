@@ -46,6 +46,7 @@ const AddPerson = ({ schools, classes }) => {
       classes={classes}
       onSubmit={onSubmit}
       message={message}
+      setMessage={setMessage}
     />
   );
 };

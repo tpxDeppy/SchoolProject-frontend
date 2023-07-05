@@ -112,13 +112,23 @@ describe("UpdatePerson", () => {
     });
     await userEvent.click(class2);
 
+    //confirmation modal should not exist
+    const successModal = screen.queryByTestId("success-modal");
+    expect(successModal).not.toBeInTheDocument();
+
     const updateButton = screen.getByRole("button", { name: /update/i });
     await userEvent.click(updateButton);
 
-    //confirmation message should appear
-    const successMessage = await screen.findByText(
+    //confirmation modal should appear
+    const successMessage = screen.getByText(
       /person was successfully updated!/i
     );
+    const linkToNavigateAway = screen.getByRole("link", {
+      name: /go to homepage/i,
+    });
+
+    expect(screen.getByTestId("success-modal")).toBeInTheDocument();
     expect(successMessage).toBeInTheDocument();
+    expect(linkToNavigateAway).toHaveAttribute("href", "/");
   });
 });

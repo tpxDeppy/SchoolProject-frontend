@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import validationSchema from "./schoolValidation";
 import DeleteSchool from "../DeleteSchool";
+import AddUpdateModal from "@/components/ui/AddUpdateModal";
 
 const AddUpdateSchoolForm = ({
   title,
@@ -12,6 +13,7 @@ const AddUpdateSchoolForm = ({
   initialValues,
   onSubmit,
   message,
+  setMessage,
 }) => {
   const formik = useFormik({
     initialValues: initialValues,
@@ -25,20 +27,6 @@ const AddUpdateSchoolForm = ({
       className="mx-auto mt-20 mb-20 flex max-w-8xl items-center justify-center"
     >
       <div className="bg-white p-10 border-b border-gray-900/10 pb-12 shadow-lg">
-        {/* confirmation message */}
-        <div className="text-base font-bold leading-7 pb-5 text-cyan-500">
-          {message}
-          {message && (
-            <Link
-              className="text-base font-bold leading-7 pb-5 text-gray-500"
-              href="/schoolList"
-            >
-              {" "}
-              Go to School List
-            </Link>
-          )}
-        </div>
-
         {/* title */}
         <h2 className="text-base font-semibold leading-7 text-gray-900">
           {title}
@@ -82,12 +70,14 @@ const AddUpdateSchoolForm = ({
           >
             Cancel
           </Link>
-          <button
-            type="submit"
-            className="rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          >
-            {buttonTitle}
-          </button>
+          <AddUpdateModal
+            buttonTitle={buttonTitle}
+            message={message}
+            setMessage={setMessage}
+            closeButtonTitle={buttonTitle + " " + "more"}
+            pageToGo="School List"
+            linkToPage="/schoolList"
+          />
           {buttonTitle === "Update" && <DeleteSchool school={school} />}
         </div>
       </div>

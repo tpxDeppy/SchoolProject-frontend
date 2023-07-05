@@ -51,17 +51,22 @@ describe("UpdateSchool", () => {
     await userEvent.click(schoolName);
     await userEvent.keyboard("{backspace}D");
 
+    //confirmation modal should not exist
+    const successModal = screen.queryByTestId("success-modal");
+    expect(successModal).not.toBeInTheDocument();
+
     const updateButton = screen.getByRole("button", { name: /update/i });
     await userEvent.click(updateButton);
 
-    //confirmation message should appear
-    const successMessage = await screen.findByText(
+    //confirmation modal should appear
+    const successMessage = screen.getByText(
       /school was successfully updated!/i
     );
     const linkToSchoolList = screen.getByRole("link", {
       name: /go to school list/i,
     });
 
+    expect(screen.getByTestId("success-modal")).toBeInTheDocument();
     expect(successMessage).toBeInTheDocument();
     expect(linkToSchoolList).toHaveAttribute("href", "/schoolList");
   });
